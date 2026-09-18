@@ -125,7 +125,7 @@
     .btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 8px;
       font-weight: 700;
       font-size: 0.9rem;
@@ -135,6 +135,8 @@
       transition: all 0.2s ease;
       cursor: pointer;
       border: none;
+      text-align: left;
+      white-space: nowrap;
     }
 
     .btn-primary {
@@ -160,14 +162,14 @@
     }
 
     .btn-large {
-      padding: 14px 28px;
-      font-size: 1.05rem;
-      border-radius: 16px;
+      padding: 13px 22px;
+      font-size: 0.98rem;
+      border-radius: 14px;
     }
 
     .hero {
-      padding: 80px 0 60px;
-      text-align: center;
+      padding: 70px 0 50px;
+      text-align: left;
     }
 
     .release-tag {
@@ -199,6 +201,7 @@
       letter-spacing: -1.5px;
       line-height: 1.15;
       margin-bottom: 24px;
+      text-align: left;
     }
 
     .gradient-text {
@@ -211,26 +214,29 @@
       font-size: 1.15rem;
       color: var(--text-muted);
       max-width: 680px;
-      margin: 0 auto 36px;
+      margin: 0 0 32px 0;
       font-weight: 400;
+      text-align: left;
     }
 
     .hero-cta-group {
       display: flex;
-      justify-content: center;
-      gap: 16px;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 14px;
       flex-wrap: wrap;
       margin-bottom: 36px;
     }
 
     .hero-meta-badges {
       display: flex;
-      justify-content: center;
-      gap: 20px;
+      justify-content: flex-start;
+      gap: 18px;
       flex-wrap: wrap;
       color: var(--text-subtle);
       font-size: 0.85rem;
       margin-bottom: 50px;
+      text-align: left;
     }
 
     .hero-meta-badges span {
@@ -322,15 +328,17 @@
 
     .walkthrough-tabs {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 12px;
       flex-wrap: wrap;
       margin-bottom: 48px;
     }
 
     .w-tab {
-      display: flex;
+      display: inline-flex;
       align-items: center;
+      justify-content: flex-start;
+      text-align: left;
       gap: 10px;
       background: var(--bg-surface);
       border: 1px solid var(--border);
@@ -562,6 +570,67 @@
       grid-template-columns: 1fr 240px;
       gap: 40px;
       align-items: center;
+      text-align: left;
+    }
+
+    .download-cta-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .install-steps-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 16px;
+    }
+
+    .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      justify-content: flex-start;
+      text-align: left;
+    }
+
+    .step-pill strong {
+      color: var(--text-main);
+    }
+
+    .qr-box {
+      background: #FFFFFF;
+      padding: 16px;
+      border-radius: 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .qr-box img {
+      width: 160px;
+      height: 160px;
+      display: block;
+    }
+
+    .qr-box p {
+      color: #1F2937;
+      font-size: 0.75rem;
+      font-weight: 700;
     }
 
     /* Mobile Navigation Drawer */
@@ -580,6 +649,7 @@
       padding: 0;
       z-index: 110;
       transition: all 0.2s ease;
+      flex-shrink: 0;
     }
 
     .mobile-menu-btn:hover {
@@ -608,44 +678,48 @@
     }
 
     .mobile-nav {
-      display: none;
-      position: fixed;
-      top: 72px;
+      position: absolute;
+      top: 100%;
       left: 0;
       right: 0;
-      background: rgba(18, 20, 26, 0.98);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      padding: 20px 24px 28px;
+      width: 100%;
+      background: rgba(14, 16, 22, 0.98);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border-accent);
+      padding: 0 20px;
+      display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
       z-index: 99;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-      transform: translateY(-10px);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.7);
+      max-height: 0;
       opacity: 0;
+      overflow: hidden;
       pointer-events: none;
-      transition: transform 0.25s ease, opacity 0.25s ease;
+      transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, padding 0.3s ease;
     }
 
     .mobile-nav.open {
-      display: flex;
-      transform: translateY(0);
+      max-height: 85vh;
+      overflow-y: auto;
       opacity: 1;
       pointer-events: auto;
+      padding: 16px 20px 24px;
     }
 
     .mobile-nav a.mobile-link {
       color: var(--text-main);
       text-decoration: none;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 600;
-      padding: 12px 6px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 12px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
       justify-content: space-between;
       transition: color 0.2s ease;
+      text-align: left;
     }
 
     .mobile-nav a.mobile-link:hover {
@@ -655,8 +729,101 @@
     .mobile-nav-actions {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 10px;
       margin-top: 14px;
+      width: 100%;
+    }
+
+    .mobile-nav-actions .btn {
+      width: 100%;
+      justify-content: flex-start;
+      text-align: left;
+      padding: 13px 18px;
+    }
+
+    /* 7. Footer Styles */
+    footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      padding: 50px 0 36px;
+      margin-top: 60px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 32px;
+      text-align: left;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      text-align: left;
+      max-width: 420px;
+    }
+
+    .footer-brand-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-main);
+      text-align: left;
+    }
+
+    .footer-brand-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+      text-align: left;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--text-subtle);
+      text-align: left;
     }
 
     /* Features Grid Responsive */
@@ -678,6 +845,9 @@
       .nav-links {
         display: none;
       }
+      .nav-actions .btn {
+        display: none !important;
+      }
       .mobile-menu-btn {
         display: flex;
       }
@@ -693,15 +863,26 @@
         padding: 0 18px;
       }
       .hero {
-        padding: 56px 0 40px;
+        padding: 48px 0 36px;
+        text-align: left;
       }
       .hero-title {
-        font-size: clamp(2rem, 6.5vw, 3rem);
+        font-size: clamp(1.9rem, 6.5vw, 2.8rem);
         letter-spacing: -1px;
+        text-align: left;
       }
       .hero-subtitle {
-        font-size: 1rem;
-        margin-bottom: 28px;
+        font-size: 0.98rem;
+        margin-bottom: 24px;
+        text-align: left;
+      }
+      .hero-cta-group {
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+      .hero-meta-badges {
+        justify-content: flex-start;
+        text-align: left;
       }
       .features-grid {
         grid-template-columns: 1fr;
@@ -712,36 +893,82 @@
         gap: 18px;
       }
       .walkthrough-tabs {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
         gap: 8px;
         width: 100%;
       }
       .w-tab {
-        padding: 10px 12px;
-        font-size: 0.85rem;
-        justify-content: center;
+        padding: 10px 14px;
+        font-size: 0.84rem;
+        justify-content: flex-start;
+        text-align: left;
       }
       .download-card {
         grid-template-columns: 1fr;
-        padding: 32px 20px;
-        text-align: center;
+        padding: 28px 18px;
+        text-align: left;
+      }
+      .download-card > div {
+        text-align: left;
+      }
+      .download-cta-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .download-cta-row .btn {
+        width: auto;
+        max-width: 100%;
+        justify-content: flex-start;
+        text-align: left;
       }
       .qr-box {
-        margin: 0 auto;
+        margin: 0;
+        max-width: 220px;
       }
       .install-steps-row {
-        justify-content: center;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .step-pill {
+        width: 100%;
+        justify-content: flex-start;
+        text-align: left;
+      }
+      footer {
+        padding: 36px 0 24px;
       }
       .footer-inner {
         flex-direction: column;
+        align-items: flex-start;
         gap: 20px;
-        text-align: center;
+        text-align: left;
+      }
+      .footer-brand {
+        align-items: flex-start;
+        text-align: left;
       }
       .footer-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        width: 100%;
+        text-align: left;
+      }
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        text-align: left;
+        margin-top: 24px;
+        padding-top: 16px;
       }
     }
 
@@ -752,10 +979,6 @@
       .nav-inner {
         height: 64px;
       }
-      .mobile-nav {
-        top: 64px;
-        padding: 16px 16px 24px;
-      }
       .logo {
         font-size: 1.15rem;
       }
@@ -763,49 +986,50 @@
         font-size: 0.65rem;
         padding: 2px 6px;
       }
-      .nav-actions .btn-secondary {
-        display: none;
-      }
-      .nav-actions .btn-primary {
-        padding: 8px 14px;
-        font-size: 0.82rem;
-      }
       .hero {
-        padding: 40px 0 32px;
+        padding: 36px 0 28px;
+        text-align: left;
       }
       .release-tag {
         font-size: 0.76rem;
         padding: 4px 12px;
-        margin-bottom: 18px;
+        margin-bottom: 16px;
       }
       .hero-title {
         font-size: clamp(1.75rem, 8vw, 2.35rem);
         line-height: 1.2;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
+        text-align: left;
       }
       .hero-subtitle {
         font-size: 0.92rem;
         line-height: 1.5;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
+        text-align: left;
       }
       .hero-cta-group {
+        display: flex;
         flex-direction: column;
-        align-items: stretch;
+        align-items: flex-start;
         gap: 10px;
-        margin-bottom: 28px;
+        margin-bottom: 24px;
       }
       .hero-cta-group .btn {
-        width: 100%;
-        padding: 13px 18px;
-        font-size: 0.95rem;
+        width: auto;
+        max-width: 100%;
+        padding: 12px 18px;
+        font-size: 0.92rem;
+        justify-content: flex-start;
+        text-align: left;
       }
       .hero-meta-badges {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
         font-size: 0.78rem;
         text-align: left;
-        margin-bottom: 36px;
+        margin-bottom: 32px;
       }
       .phone-device {
         width: 100%;
@@ -815,6 +1039,7 @@
       }
       .section-header {
         margin-bottom: 32px;
+        text-align: left;
       }
       .section-badge {
         font-size: 0.78rem;
@@ -822,37 +1047,45 @@
       .section-title {
         font-size: 1.7rem;
         margin-bottom: 10px;
+        text-align: left;
       }
       .section-subtitle {
         font-size: 0.9rem;
+        text-align: left;
       }
       .walkthrough-section,
       .features-section,
       .specs-section,
       .download-section {
-        padding: 56px 0;
+        padding: 48px 0;
       }
       .details-card {
         padding: 20px 16px;
         border-radius: 20px;
+        text-align: left;
       }
       .details-title {
         font-size: 1.35rem;
+        text-align: left;
       }
       .details-desc {
         font-size: 0.9rem;
         margin-bottom: 18px;
+        text-align: left;
       }
       .highlights-list {
         gap: 10px;
         margin-bottom: 20px;
+        text-align: left;
       }
       .highlights-list li {
         font-size: 0.85rem;
+        text-align: left;
       }
       .feature-card {
         padding: 22px 18px;
         border-radius: 18px;
+        text-align: left;
       }
       .feature-icon-box {
         width: 44px;
@@ -862,39 +1095,41 @@
       }
       .feature-title {
         font-size: 1.15rem;
+        text-align: left;
       }
       .feature-desc {
         font-size: 0.88rem;
+        text-align: left;
       }
       .specs-card {
         padding: 20px 16px;
         border-radius: 18px;
+        text-align: left;
       }
       .specs-card-title {
         font-size: 1.15rem;
         margin-bottom: 14px;
+        text-align: left;
       }
       .specs-table td {
         font-size: 0.82rem;
         padding: 8px 0;
       }
       .download-card {
-        padding: 26px 16px;
-        border-radius: 22px;
+        padding: 24px 16px;
+        border-radius: 20px;
+        text-align: left;
       }
       .download-card h2 {
-        font-size: 1.7rem !important;
-      }
-      .install-steps-row {
-        flex-direction: column;
-        gap: 8px;
-        margin-top: 20px;
+        font-size: 1.6rem !important;
+        text-align: left;
       }
       .step-pill {
         width: 100%;
         justify-content: flex-start;
         padding: 10px 12px;
         font-size: 0.82rem;
+        text-align: left;
       }
       .qr-box {
         padding: 12px;
@@ -914,11 +1149,7 @@
         font-size: 1.55rem;
       }
       .walkthrough-tabs {
-        grid-template-columns: 1fr;
-      }
-      .hero-meta-badges {
-        grid-template-columns: 1fr;
-        text-align: center;
+        flex-direction: column;
       }
       .container {
         padding: 0 12px;
@@ -935,7 +1166,7 @@
       <a href="#" class="logo">
         <span style="font-size: 1.5rem;">🍳</span>
         <span>CookSmart</span>
-        <span class="logo-badge">v1.0.0</span>
+        <span class="logo-badge">v1.1.0</span>
       </a>
 
       <ul class="nav-links">
@@ -950,7 +1181,7 @@
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span>GitHub</span>
         </a>
-        <a href="downloads/app-release.apk" download class="btn btn-primary">
+        <a href="downloads/app-release.apk" download="CookSmart-v1.1.0.apk" class="btn btn-primary">
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           <span>Download APK</span>
         </a>
@@ -981,11 +1212,11 @@
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
       </a>
       <div class="mobile-nav-actions">
-        <a href="downloads/app-release.apk" download class="btn btn-primary btn-large" style="width: 100%;">
+        <a href="downloads/app-release.apk" download="CookSmart-v1.1.0.apk" class="btn btn-primary btn-large">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           <span>Download Android APK (49.1 MB)</span>
         </a>
-        <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank" class="btn btn-secondary" style="width: 100%;">
+        <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank" class="btn btn-secondary btn-large">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span>View on GitHub</span>
         </a>
@@ -1289,7 +1520,7 @@
             💡 <strong>Note for Updating:</strong> If you had a previous version installed on your device, please <strong>uninstall the old app first</strong> to prevent Android signature caching conflicts.
           </div>
 
-          <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
+          <div class="download-cta-row">
             <a href="downloads/app-release.apk" download="CookSmart-v1.1.0.apk" class="btn btn-primary btn-large">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Download APK v1.1.0 (49.1 MB)</span>
@@ -1323,18 +1554,33 @@
   <!-- 7. Footer -->
   <footer>
     <div class="container footer-inner">
-      <div style="display: flex; align-items: center; gap: 8px;">
-        <span style="font-size: 1.25rem;">🍳</span>
-        <span style="font-weight: 700; color: var(--text-main);">CookSmart</span>
-        <span>• Powered by Google Gemini AI</span>
+      <div class="footer-brand">
+        <div class="footer-brand-title">
+          <span style="font-size: 1.4rem;">🍳</span>
+          <span>CookSmart</span>
+          <span class="logo-badge">v1.1.0</span>
+        </div>
+        <p class="footer-brand-desc">Turn everyday pantry ingredients into delicious meals with Google Gemini AI. Complete English & বাংলা bilingual support with zero food waste.</p>
       </div>
 
       <div class="footer-links">
-        <a href="downloads/app-release.apk" download>Download APK</a>
-        <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank">GitHub Repository</a>
+        <a href="downloads/app-release.apk" download="CookSmart-v1.1.0.apk">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Download APK</span>
+        </a>
+        <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub Repository</span>
+        </a>
+        <a href="#features">Features</a>
         <a href="#walkthrough">App Walkthrough</a>
         <a href="#specs">Compatibility</a>
       </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <span>© 2026 CookSmart. Built with Google Gemini 2.5 Flash & Flutter.</span>
+      <span>100% Free • Open Source • Zero Sign-In Required</span>
     </div>
   </footer>
 
