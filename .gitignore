@@ -1,0 +1,30 @@
+# Flutter & Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+flutter_app/build/
+
+# Android Studio & Gradle
+.gradle/
+flutter_app/android/.gradle/
+flutter_app/android/local.properties
+flutter_app/android/app/debug/
+flutter_app/android/app/profile/
+flutter_app/android/app/release/
+*.iml
+.idea/
+flutter_app/.idea/
+
+# OS & Temp
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+
+# Stitch internal cache
+.stitch/

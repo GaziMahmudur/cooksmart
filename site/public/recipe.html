@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CookSmart - Recipe Result</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#FF7A00',
+              hover: '#FF8A1E',
+              glow: 'rgba(255, 122, 0, 0.35)'
+            },
+            surface: {
+              DEFAULT: '#121214',
+              card: '#1E1E22',
+              elevated: '#26262B',
+              border: 'rgba(255, 255, 255, 0.08)'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #121214;
+      color: #FFFFFF;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .ingredient-checkbox:checked + label .check-circle {
+      background-color: #FF7A00;
+      border-color: #FF7A00;
+    }
+    .ingredient-checkbox:checked + label .check-circle span {
+      display: block;
+    }
+    .ingredient-checkbox:checked + label .ingredient-name {
+      color: #71717A;
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body class="bg-[#121214] text-white flex justify-center min-h-screen">
+  <!-- Mobile Container (390px viewport styling) -->
+  <div class="w-full max-w-[390px] min-h-screen bg-[#121214] flex flex-col relative pb-28 border-x border-white/5 shadow-2xl">
+    
+    <!-- Top Navigation Bar (Sticky) -->
+    <header class="sticky top-0 z-30 bg-[#121214]/90 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-white/5">
+      <a href="ingredients.html" class="w-10 h-10 rounded-full bg-[#1E1E22] border border-white/10 flex items-center justify-center text-white/90 hover:bg-[#26262B] transition-colors active:scale-95" aria-label="Back to Ingredients">
+        <span class="material-symbols-outlined text-xl">arrow_back</span>
+      </a>
+      
+      <div class="flex flex-col items-center">
+        <span class="text-xs font-semibold uppercase tracking-wider text-[#FF7A00]">CookSmart AI</span>
+        <h1 class="text-base font-bold text-white tracking-tight">Recipe Result</h1>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <button id="saveTopBtn" class="w-10 h-10 rounded-full bg-[#1E1E22] border border-white/10 flex items-center justify-center text-white/90 hover:text-[#FF7A00] hover:bg-[#26262B] transition-colors active:scale-95" aria-label="Bookmark Recipe" onclick="toggleBookmark(this)">
+          <span class="material-symbols-outlined text-xl">bookmark_border</span>
+        </button>
+        <button class="w-10 h-10 rounded-full bg-[#1E1E22] border border-white/10 flex items-center justify-center text-white/90 hover:text-white hover:bg-[#26262B] transition-colors active:scale-95" aria-label="Share Recipe" onclick="triggerShare()">
+          <span class="material-symbols-outlined text-xl">share</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col">
+      
+      <!-- Hero Banner Image with badges -->
+      <div class="relative w-full aspect-[16/10] overflow-hidden bg-[#1E1E22]">
+        <img 
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpPCnzaCz4-jbNVmU8SLtgjLYhbuwjaEw7miV9QX9ga_kRhF6zSlegtuz7ZmiGIIETLet7F1BpiLFo6xkllPKNn3UH-zXNP4eFU9DIzuAXB3Vm9YBOG26f0WR8FazBddFlOaZpxDx5nTmhMRMgzwKbDijMDlhfj7l_l3TdzMEvHFZYQWwNXepI83IDYaQtNW4jCB5tyCUDjxeJtqPQjRMbjGXcvjBlNfttI_EyILgRhDYj-28kifXwTmLxfYo-3CZJOdlfKEEqAAY" 
+          alt="Tuscan Garlic Butter Chicken with Cherry Tomatoes & Spinach" 
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-[#121214] via-[#121214]/30 to-transparent"></div>
+        
+        <!-- Badges on Image -->
+        <div class="absolute top-3 left-3 flex gap-2">
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase bg-[#FF7A00] text-black shadow-md flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">auto_awesome</span> Smart Match
+          </span>
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-medium bg-black/60 backdrop-blur-md text-white border border-white/10 flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">skillet</span> Cast Iron
+          </span>
+        </div>
+
+        <div class="absolute bottom-3 right-3">
+          <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 backdrop-blur-md flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 100% In Stock
+          </span>
+        </div>
+      </div>
+
+      <!-- Dish Title & Overview Description -->
+      <div class="px-5 pt-3 pb-4">
+        <h2 class="text-2xl font-extrabold text-white tracking-tight leading-tight mb-2">
+          Tuscan Garlic Butter Chicken
+        </h2>
+        <p class="text-sm text-[#A1A1AA] leading-relaxed">
+          Tender chicken breasts pan-seared in rich garlic butter, simmered with sweet burst cherry tomatoes and fresh garden spinach.
+        </p>
+
+        <!-- Recipe Metrics Row -->
+        <div class="grid grid-cols-4 gap-2 mt-4 p-3 rounded-2xl bg-[#1E1E22] border border-white/5">
+          <!-- Time -->
+          <div class="flex flex-col items-center justify-center py-1">
+            <div class="w-7 h-7 rounded-full bg-[#FF7A00]/10 text-[#FF7A00] flex items-center justify-center mb-1">
+              <span class="material-symbols-outlined text-base">schedule</span>
+            </div>
+            <span class="text-xs font-bold text-white">25 mins</span>
+            <span class="text-[10px] text-[#A1A1AA] uppercase">Cook Time</span>
+          </div>
+
+          <!-- Calories -->
+          <div class="flex flex-col items-center justify-center py-1 border-l border-white/5">
+            <div class="w-7 h-7 rounded-full bg-amber-500/10 text-amber-400 flex items-center justify-center mb-1">
+              <span class="material-symbols-outlined text-base">local_fire_department</span>
+            </div>
+            <span class="text-xs font-bold text-white">480 kcal</span>
+            <span class="text-[10px] text-[#A1A1AA] uppercase">Calories</span>
+          </div>
+
+          <!-- Servings -->
+          <div class="flex flex-col items-center justify-center py-1 border-l border-white/5">
+            <div class="w-7 h-7 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center mb-1">
+              <span class="material-symbols-outlined text-base">group</span>
+            </div>
+            <span class="text-xs font-bold text-white">2 Servings</span>
+            <span class="text-[10px] text-[#A1A1AA] uppercase">Portion</span>
+          </div>
+
+          <!-- Difficulty -->
+          <div class="flex flex-col items-center justify-center py-1 border-l border-white/5">
+            <div class="w-7 h-7 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-1">
+              <span class="material-symbols-outlined text-base">bolt</span>
+            </div>
+            <span class="text-xs font-bold text-white">Easy</span>
+            <span class="text-[10px] text-[#A1A1AA] uppercase">Level</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="h-px w-full bg-white/5 my-1"></div>
+
+      <!-- Ingredients Checklist Section -->
+      <section class="px-5 py-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-2">
+            <h3 class="text-lg font-bold text-white">Ingredients</h3>
+            <span class="px-2 py-0.5 rounded-full text-xs font-semibold bg-[#26262B] text-[#FF7A00] border border-white/5">8 items</span>
+          </div>
+          <span class="text-[11px] text-[#A1A1AA]">Tap to check off</span>
+        </div>
+
+        <!-- Checklist items -->
+        <div class="space-y-2">
+          <!-- Item 1 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-1" class="hidden ingredient-checkbox" checked>
+            <label for="ing-1" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all bg-[#FF7A00] border-[#FF7A00]">
+                  <span class="material-symbols-outlined text-xs text-black font-bold">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">2 boneless chicken breasts</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">cubed</span>
+            </label>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-2" class="hidden ingredient-checkbox" checked>
+            <label for="ing-2" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all bg-[#FF7A00] border-[#FF7A00]">
+                  <span class="material-symbols-outlined text-xs text-black font-bold">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">4 cloves garlic</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">minced</span>
+            </label>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-3" class="hidden ingredient-checkbox">
+            <label for="ing-3" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all">
+                  <span class="material-symbols-outlined text-xs text-black font-bold hidden">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">Extra virgin olive oil</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">2 tbsp</span>
+            </label>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-4" class="hidden ingredient-checkbox">
+            <label for="ing-4" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all">
+                  <span class="material-symbols-outlined text-xs text-black font-bold hidden">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">Cherry tomatoes</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">1 cup (halved)</span>
+            </label>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-5" class="hidden ingredient-checkbox">
+            <label for="ing-5" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all">
+                  <span class="material-symbols-outlined text-xs text-black font-bold hidden">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">Fresh baby spinach</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">2 cups</span>
+            </label>
+          </div>
+
+          <!-- Item 6 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-6" class="hidden ingredient-checkbox">
+            <label for="ing-6" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all">
+                  <span class="material-symbols-outlined text-xs text-black font-bold hidden">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">Heavy cream</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">1/2 cup</span>
+            </label>
+          </div>
+
+          <!-- Item 7 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-7" class="hidden ingredient-checkbox">
+            <label for="ing-7" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all">
+                  <span class="material-symbols-outlined text-xs text-black font-bold hidden">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">Grated parmesan cheese</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">1/4 cup</span>
+            </label>
+          </div>
+
+          <!-- Item 8 -->
+          <div class="bg-[#1E1E22] rounded-xl border border-white/5 p-3 hover:border-white/10 transition-colors">
+            <input type="checkbox" id="ing-8" class="hidden ingredient-checkbox">
+            <label for="ing-8" class="flex items-center justify-between cursor-pointer select-none">
+              <div class="flex items-center gap-3">
+                <div class="check-circle w-5 h-5 rounded-full border border-white/20 flex items-center justify-center transition-all">
+                  <span class="material-symbols-outlined text-xs text-black font-bold hidden">check</span>
+                </div>
+                <span class="ingredient-name text-sm font-medium text-white transition-all">Salt, pepper & Italian herbs</span>
+              </div>
+              <span class="text-xs font-semibold text-[#A1A1AA] bg-[#26262B] px-2 py-0.5 rounded-md">To taste</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step-by-Step Cooking Guide -->
+      <section class="px-5 py-4">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-white">Cooking Steps</h3>
+          <span class="text-xs font-semibold text-[#FF7A00] flex items-center gap-1">
+            <span class="material-symbols-outlined text-sm">timer</span> 4 Steps
+          </span>
+        </div>
+
+        <div class="relative pl-6 space-y-6 before:content-[''] before:absolute before:left-3 before:top-2 before:bottom-2 before:w-[2px] before:bg-white/10">
+          
+          <!-- Step 1 -->
+          <div class="relative">
+            <div class="absolute -left-6 top-0 w-6 h-6 rounded-full bg-[#FF7A00] text-black font-extrabold text-xs flex items-center justify-center shadow-[0_0_12px_rgba(255,122,0,0.5)]">
+              1
+            </div>
+            <div class="bg-[#1E1E22] p-4 rounded-2xl border border-white/5">
+              <div class="flex items-center justify-between mb-1.5">
+                <h4 class="text-sm font-bold text-white">Season & Sear</h4>
+                <span class="text-[11px] font-semibold text-[#FF7A00] bg-[#FF7A00]/10 px-2 py-0.5 rounded-full">5-6 mins</span>
+              </div>
+              <p class="text-xs text-[#A1A1AA] leading-relaxed">
+                Season chicken with salt and Italian herbs. Sear in hot olive oil for 5-6 minutes until golden brown.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="relative">
+            <div class="absolute -left-6 top-0 w-6 h-6 rounded-full bg-[#26262B] text-white border border-white/20 font-bold text-xs flex items-center justify-center">
+              2
+            </div>
+            <div class="bg-[#1E1E22] p-4 rounded-2xl border border-white/5">
+              <div class="flex items-center justify-between mb-1.5">
+                <h4 class="text-sm font-bold text-white">Sauté Aromatics</h4>
+                <span class="text-[11px] font-semibold text-zinc-400 bg-white/5 px-2 py-0.5 rounded-full">3 mins</span>
+              </div>
+              <p class="text-xs text-[#A1A1AA] leading-relaxed">
+                Add minced garlic and cherry tomatoes to skillet. Sauté until fragrant and blistering.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="relative">
+            <div class="absolute -left-6 top-0 w-6 h-6 rounded-full bg-[#26262B] text-white border border-white/20 font-bold text-xs flex items-center justify-center">
+              3
+            </div>
+            <div class="bg-[#1E1E22] p-4 rounded-2xl border border-white/5">
+              <div class="flex items-center justify-between mb-1.5">
+                <h4 class="text-sm font-bold text-white">Simmer Sauce</h4>
+                <span class="text-[11px] font-semibold text-zinc-400 bg-white/5 px-2 py-0.5 rounded-full">4 mins</span>
+              </div>
+              <p class="text-xs text-[#A1A1AA] leading-relaxed">
+                Stir in cream and parmesan until velvety. Fold in baby spinach until wilted.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="relative">
+            <div class="absolute -left-6 top-0 w-6 h-6 rounded-full bg-[#26262B] text-white border border-white/20 font-bold text-xs flex items-center justify-center">
+              4
+            </div>
+            <div class="bg-[#1E1E22] p-4 rounded-2xl border border-white/5">
+              <div class="flex items-center justify-between mb-1.5">
+                <h4 class="text-sm font-bold text-white">Combine & Serve</h4>
+                <span class="text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Ready</span>
+              </div>
+              <p class="text-xs text-[#A1A1AA] leading-relaxed">
+                Return seared chicken to the skillet, coat with luscious garlic butter sauce, and serve warm.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Chef's Tip Card -->
+      <div class="px-5 pb-6">
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-[#26262B] to-[#1E1E22] border border-[#FF7A00]/20 flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-[#FF7A00]/10 text-[#FF7A00] flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-lg">lightbulb</span>
+          </div>
+          <div>
+            <span class="text-xs font-bold text-[#FF7A00] uppercase tracking-wider block">Chef's Pro Tip</span>
+            <p class="text-xs text-[#A1A1AA] mt-0.5 leading-relaxed">
+              For a richer golden crust, pat chicken cubes completely dry with paper towels before seasoning and searing.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Bottom Action Bar (Fixed at bottom) -->
+    <nav class="fixed bottom-0 left-0 right-0 max-w-[390px] mx-auto z-40 bg-[#121214]/95 backdrop-blur-xl border-t border-white/10 px-4 py-3 pb-6 flex items-center gap-3">
+      <!-- Secondary Outline Button: Back to Pantry -->
+      <a 
+        href="ingredients.html" 
+        class="flex-1 py-3.5 px-3 rounded-full border border-white/20 bg-[#1E1E22] text-xs font-semibold text-white/90 text-center flex items-center justify-center gap-1.5 hover:bg-[#26262B] active:scale-95 transition-all"
+      >
+        <span class="material-symbols-outlined text-base">kitchen</span>
+        <span>Back to Pantry</span>
+      </a>
+
+      <!-- Primary Orange Glow Button: Save to My Recipes -->
+      <a 
+        href="saved.html" 
+        class="flex-[1.4] py-3.5 px-4 rounded-full bg-[#FF7A00] text-black text-xs font-bold text-center flex items-center justify-center gap-1.5 shadow-[0_4px_20px_rgba(255,122,0,0.38)] hover:bg-[#FF8A1E] active:scale-95 transition-all"
+      >
+        <span class="material-symbols-outlined text-base font-bold">star</span>
+        <span>Save to My Recipes</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <script>
+    function toggleBookmark(btn) {
+      const icon = btn.querySelector('.material-symbols-outlined');
+      if (icon.innerText === 'bookmark_border') {
+        icon.innerText = 'bookmark';
+        icon.classList.add('text-[#FF7A00]');
+      } else {
+        icon.innerText = 'bookmark_border';
+        icon.classList.remove('text-[#FF7A00]');
+      }
+    }
+
+    function triggerShare() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Tuscan Garlic Butter Chicken - CookSmart',
+          text: 'Check out this dinner recipe generated with CookSmart!',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        alert('Recipe link copied to clipboard!');
+      }
+    }
+  </script>
+</body>
+</html>
