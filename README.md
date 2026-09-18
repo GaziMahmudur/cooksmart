@@ -15,8 +15,9 @@
 
 CookSmart includes an official "Anti-Gravity" style landing page where users can explore full app details, watch video walkthrough demos, and download the Android release APK directly:
 
-- **Web Showcase**: [`site/public/index.html`](site/public/index.html)
-- **Direct APK Download**: [`site/public/downloads/app-release.apk`](site/public/downloads/app-release.apk) (48.7 MB)
+- **🚀 Live Website**: **[https://site-five-kohl-ioqd6kzeb3.vercel.app](https://site-five-kohl-ioqd6kzeb3.vercel.app)**
+- **Direct APK Download**: [Download Android APK](https://site-five-kohl-ioqd6kzeb3.vercel.app/downloads/app-release.apk) (48.7 MB)
+- **Local Showcase**: [`site/public/index.html`](site/public/index.html)
 - **Vercel Config**: [`site/vercel.json`](site/vercel.json)
 
 ---

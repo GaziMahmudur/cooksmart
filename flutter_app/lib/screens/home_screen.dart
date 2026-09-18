@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../models/recipe.dart';
 import '../services/gemini_recipe_service.dart';
 import '../state/app_state.dart';
@@ -330,7 +331,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'https://cooksmart-app.vercel.app',
+                      'https://site-five-kohl-ioqd6kzeb3.vercel.app',
                       style: TextStyle(
                         color: AppColors.textWhite,
                         fontSize: 12,
@@ -350,10 +351,13 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           ElevatedButton(
             onPressed: () {
+              Clipboard.setData(
+                const ClipboardData(text: 'https://site-five-kohl-ioqd6kzeb3.vercel.app'),
+              );
               Navigator.pop(ctx);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Website link copied to clipboard!'),
+                  content: Text('Website link copied to clipboard! (https://site-five-kohl-ioqd6kzeb3.vercel.app)'),
                   backgroundColor: AppColors.surfaceElevated,
                 ),
               );
