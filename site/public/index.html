@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CookSmart • AI Kitchen Assistant & Recipe Generator</title>
-  <meta name="description" content="CookSmart turns your kitchen leftovers into delicious recipes with Google Gemini AI. Complete English & Bangla (বাংলা) bilingual support. Download the Android APK directly." />
+  <meta name="description" content="CookSmart turns your kitchen leftovers into delicious recipes with Google Gemini AI. Complete English & বাংলা bilingual support. Download the Android APK directly." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -13,12 +13,12 @@
       --bg: #0B0C10;
       --bg-surface: #12141A;
       --bg-elevated: #1A1D26;
-      --bg-glass: rgba(18, 20, 26, 0.75);
+      --bg-glass: rgba(18, 20, 26, 0.85);
       --border: rgba(255, 255, 255, 0.08);
-      --border-accent: rgba(255, 107, 53, 0.3);
+      --border-accent: rgba(255, 107, 53, 0.35);
       --primary: #FF6B35;
       --primary-hover: #E8551F;
-      --primary-glow: rgba(255, 107, 53, 0.25);
+      --primary-glow: rgba(255, 107, 53, 0.3);
       --text-main: #F4F4F6;
       --text-muted: #9CA3AF;
       --text-subtle: #6B7280;
@@ -43,7 +43,7 @@
     .bg-grid {
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(circle at 50% 0%, rgba(255, 107, 53, 0.12) 0%, transparent 60%),
+      background-image: radial-gradient(circle at 50% 0%, rgba(255, 107, 53, 0.15) 0%, transparent 60%),
                         linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                         linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
       background-size: 100% 100%, 48px 48px, 48px 48px;
@@ -145,7 +145,7 @@
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(255, 107, 53, 0.4);
+      box-shadow: 0 8px 28px rgba(255, 107, 53, 0.45);
     }
 
     .btn-secondary {
@@ -166,7 +166,7 @@
     }
 
     .hero {
-      padding: 90px 0 60px;
+      padding: 80px 0 60px;
       text-align: center;
     }
 
@@ -194,10 +194,10 @@
     }
 
     .hero-title {
-      font-size: clamp(2.5rem, 5vw, 4.2rem);
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
       font-weight: 800;
       letter-spacing: -1.5px;
-      line-height: 1.1;
+      line-height: 1.15;
       margin-bottom: 24px;
     }
 
@@ -208,7 +208,7 @@
     }
 
     .hero-subtitle {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       color: var(--text-muted);
       max-width: 680px;
       margin: 0 auto 36px;
@@ -220,7 +220,7 @@
       justify-content: center;
       gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
     }
 
     .hero-meta-badges {
@@ -230,6 +230,7 @@
       flex-wrap: wrap;
       color: var(--text-subtle);
       font-size: 0.85rem;
+      margin-bottom: 50px;
     }
 
     .hero-meta-badges span {
@@ -238,30 +239,35 @@
       gap: 6px;
     }
 
+    /* Phone Device Frame for Real App Screenshot */
     .mockup-wrapper {
-      margin-top: 50px;
       position: relative;
+      display: flex;
+      justify-content: center;
     }
 
-    .mockup-frame {
-      max-width: 340px;
-      margin: 0 auto;
-      background: #000;
-      border: 10px solid #20232D;
+    .phone-device {
+      width: 320px;
+      background: #151820;
+      border: 8px solid #2A2E3A;
       border-radius: 46px;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8),
-                  0 0 40px rgba(255, 107, 53, 0.2);
+      box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.85),
+                  0 0 50px rgba(255, 107, 53, 0.2);
       overflow: hidden;
       position: relative;
     }
 
-    .mockup-notch {
+    .phone-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
       width: 110px;
-      height: 20px;
-      background: #20232D;
-      margin: 0 auto;
-      border-bottom-left-radius: 12px;
-      border-bottom-right-radius: 12px;
+      height: 22px;
+      background: #2A2E3A;
+      border-bottom-left-radius: 14px;
+      border-bottom-right-radius: 14px;
+      z-index: 10;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -275,49 +281,11 @@
       border-radius: 50%;
     }
 
-    .mockup-screen {
-      background: #0E0F12;
-      padding: 16px;
-      min-height: 580px;
-      text-align: left;
-    }
-
-    .app-screen-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .app-lang-pill {
-      font-size: 0.75rem;
-      background: rgba(255, 107, 53, 0.15);
-      color: var(--primary);
-      border: 1px solid var(--border-accent);
-      padding: 4px 10px;
-      border-radius: 9999px;
-      font-weight: 700;
-    }
-
-    .app-card {
-      background: #181A22;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 18px;
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    .app-tag {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--primary);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .video-section {
-      padding: 90px 0;
-      border-top: 1px solid var(--border);
+    .phone-screen-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 0 0 36px 36px;
     }
 
     .section-header {
@@ -342,89 +310,144 @@
 
     .section-subtitle {
       color: var(--text-muted);
-      max-width: 600px;
+      max-width: 620px;
       margin: 0 auto;
     }
 
-    .video-container {
+    /* Interactive Walkthrough Section */
+    .walkthrough-section {
+      padding: 90px 0;
+      border-top: 1px solid var(--border);
+      background: radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.05) 0%, transparent 70%);
+    }
+
+    .walkthrough-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .w-tab {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .w-tab:hover {
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .w-tab.active {
+      background: rgba(255, 107, 53, 0.12);
+      border-color: var(--primary);
+      color: #FFF;
+      box-shadow: 0 0 20px rgba(255, 107, 53, 0.25);
+    }
+
+    .w-tab-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 6px;
+      border-radius: 6px;
+      color: var(--primary);
+    }
+
+    .walkthrough-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 50px;
+      align-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 850px) {
+      .walkthrough-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+    }
+
+    .details-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      padding: 36px;
       position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
     }
 
-    .video-tabs {
-      display: flex;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-elevated);
-      overflow-x: auto;
-    }
-
-    .v-tab {
-      padding: 16px 24px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      white-space: nowrap;
-      transition: all 0.2s;
-    }
-
-    .v-tab.active {
+    .details-tag {
+      font-size: 0.75rem;
       color: var(--primary);
-      border-color: var(--primary);
-      background: rgba(255, 107, 53, 0.05);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      margin-bottom: 8px;
     }
 
-    .video-player-box {
-      position: relative;
-      aspect-ratio: 16 / 9;
-      background: #050608;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .details-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 14px;
     }
 
-    .video-canvas {
-      width: 100%;
-      height: 100%;
+    .details-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .highlights-list {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 30px;
-      text-align: center;
-      background: radial-gradient(circle at center, #1B1E28 0%, #08090C 100%);
+      gap: 12px;
+      margin-bottom: 28px;
     }
 
-    .play-btn-large {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: var(--primary);
-      color: white;
+    .highlights-list li {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2rem;
-      margin-bottom: 20px;
-      box-shadow: 0 0 35px var(--primary-glow);
-      cursor: pointer;
-      transition: transform 0.2s;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      line-height: 1.4;
     }
 
-    .play-btn-large:hover {
-      transform: scale(1.08);
+    .hl-check {
+      color: var(--green);
+      font-weight: 800;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Features Grid */
+    .features-section {
+      padding: 90px 0;
+      border-top: 1px solid var(--border);
     }
 
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
       gap: 24px;
-      margin-top: 40px;
     }
 
     .feature-card {
@@ -438,96 +461,175 @@
     }
 
     .feature-card:hover {
-      border-color: var(--border-accent);
       transform: translateY(-4px);
-      box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.6);
+      border-color: rgba(255, 107, 53, 0.3);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 107, 53, 0.15);
     }
 
-    .feature-icon {
-      font-size: 2rem;
+    .feature-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: rgba(255, 107, 53, 0.12);
+      border: 1px solid rgba(255, 107, 53, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
       margin-bottom: 20px;
-      display: inline-block;
-      padding: 12px;
-      border-radius: 16px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border);
     }
 
     .feature-title {
       font-size: 1.25rem;
       font-weight: 700;
       margin-bottom: 10px;
+      color: var(--text-main);
     }
 
     .feature-desc {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
+      font-size: 0.92rem;
+      line-height: 1.55;
     }
 
-    .download-section {
+    /* User Specifications Grid */
+    .specs-section {
       padding: 90px 0;
-      background: linear-gradient(180deg, var(--bg) 0%, #151821 100%);
       border-top: 1px solid var(--border);
+      background: var(--bg-surface);
     }
 
-    .download-card {
-      background: radial-gradient(circle at top right, rgba(255, 107, 53, 0.15), transparent 70%),
-                  var(--bg-surface);
-      border: 1px solid var(--border-accent);
-      border-radius: 28px;
-      padding: 48px;
+    .specs-grid {
       display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 40px;
-      align-items: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
     }
 
-    .qr-box {
-      background: #FFF;
-      padding: 20px;
-      border-radius: 20px;
-      display: inline-block;
-      text-align: center;
+    .specs-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px;
     }
 
-    .qr-box p {
-      color: #000;
-      font-size: 0.8rem;
+    .specs-card-title {
+      font-size: 1.25rem;
       font-weight: 700;
-      margin-top: 8px;
+      margin-bottom: 20px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .specs-table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 20px;
-      font-size: 0.92rem;
     }
 
     .specs-table td {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.92rem;
+    }
+
+    .specs-table tr:last-child td {
+      border-bottom: none;
     }
 
     .specs-table td:first-child {
       color: var(--text-muted);
       font-weight: 500;
-      width: 35%;
     }
 
     .specs-table td:last-child {
+      text-align: right;
       color: var(--text-main);
+      font-weight: 600;
+    }
+
+    /* Download & Install Section */
+    .download-section {
+      padding: 90px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .download-card {
+      background: linear-gradient(135deg, rgba(255, 107, 53, 0.12), rgba(18, 20, 26, 0.95));
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 32px;
+      padding: 48px;
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 40px;
+      align-items: center;
+    }
+
+    @media (max-width: 800px) {
+      .download-card {
+        grid-template-columns: 1fr;
+        padding: 32px;
+        text-align: center;
+      }
+      .qr-box {
+        margin: 0 auto;
+      }
+      .install-steps-row {
+        justify-content: center;
+      }
+    }
+
+    .qr-box {
+      text-align: center;
+      background: #FFFFFF;
+      padding: 16px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .qr-box img {
+      width: 180px;
+      height: 180px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .qr-box p {
+      color: #111827;
+      font-size: 0.78rem;
       font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
+      margin-top: 10px;
+      letter-spacing: 0.2px;
+    }
+
+    .install-steps-row {
+      display: flex;
+      gap: 20px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .step-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .step-pill strong {
+      color: var(--primary);
     }
 
     footer {
       border-top: 1px solid var(--border);
-      padding: 48px 0;
+      padding: 40px 0;
       color: var(--text-subtle);
-      font-size: 0.88rem;
+      font-size: 0.875rem;
     }
 
     .footer-inner {
@@ -546,30 +648,18 @@
     .footer-links a {
       color: var(--text-muted);
       text-decoration: none;
+      transition: color 0.2s;
     }
 
     .footer-links a:hover {
-      color: var(--primary);
-    }
-
-    @media (max-width: 860px) {
-      .download-card {
-        grid-template-columns: 1fr;
-        text-align: center;
-      }
-      .qr-box {
-        margin: 0 auto;
-      }
-      .nav-links {
-        display: none;
-      }
+      color: var(--text-main);
     }
   </style>
 </head>
 <body>
   <div class="bg-grid"></div>
 
-  <!-- 1. Navigation -->
+  <!-- 1. Navigation Bar -->
   <nav>
     <div class="container nav-inner">
       <a href="#" class="logo">
@@ -580,9 +670,9 @@
 
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
-        <li><a href="#video-demo">Video Demo</a></li>
-        <li><a href="#specs">Specifications</a></li>
-        <li><a href="#how-to-install">Install Guide</a></li>
+        <li><a href="#walkthrough">App Walkthrough</a></li>
+        <li><a href="#specs">Compatibility</a></li>
+        <li><a href="#download">Download APK</a></li>
       </ul>
 
       <div class="nav-actions">
@@ -603,242 +693,290 @@
     <div class="container">
       <div class="release-tag">
         <span class="pulse-dot"></span>
-        <span>CookSmart v1.0.0 Android Release • Production Ready</span>
+        <span>Google Gemini AI Powered • English & বাংলা Bilingual</span>
       </div>
 
       <h1 class="hero-title">
-        Cook Smarter. Waste Zero.<br />
-        <span class="gradient-text">Powered by Gemini AI.</span>
+        Cook Delicious Meals From What's<br />
+        <span class="gradient-text">Already in Your Kitchen.</span>
       </h1>
 
       <p class="hero-subtitle">
-        Turn whatever ingredients you have in your kitchen into delicious, chef-curated meals.
-        Featuring <strong>instant bilingual English & বাংলা (Bangla)</strong> support, interactive portion scaling, and smart cooking timers.
+        Turn everyday pantry ingredients into delicious meals with Google Gemini AI. Features instant 1-tap bilingual English & বাংলা switching, interactive AI Chef customizations, and zero food waste.
       </p>
 
       <div class="hero-cta-group">
         <a href="downloads/app-release.apk" download class="btn btn-primary btn-large">
-          <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           <span>Download Android APK (48.7 MB)</span>
         </a>
-        <a href="#video-demo" class="btn btn-secondary btn-large">
-          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          <span>Watch Video Walkthrough</span>
+        <a href="#walkthrough" class="btn btn-secondary btn-large">
+          <span>Explore App Walkthrough &rarr;</span>
         </a>
       </div>
 
       <div class="hero-meta-badges">
-        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Android 5.0+ (Lollipop to 14)</span>
-        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Gemini 2.5 Flash API</span>
-        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> English & বাংলা Bilingual</span>
-        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Free & Open Source</span>
+        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Android 5.0+ Compatible</span>
+        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> Gemini 2.5 Flash Engine</span>
+        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> English & বাংলা 1-Tap Switch</span>
+        <span><svg width="16" height="16" fill="var(--green)" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg> 100% Free • No Login Needed</span>
       </div>
 
-      <!-- Phone Mockup Preview -->
+      <!-- Real Phone Mockup Preview with Actual Screenshot -->
       <div class="mockup-wrapper">
-        <div class="mockup-frame">
-          <div class="mockup-notch">
+        <div class="phone-device">
+          <div class="phone-notch">
             <div class="notch-camera"></div>
           </div>
-          <div class="mockup-screen">
-            <div class="app-screen-header">
-              <div>
-                <p style="font-size: 0.75rem; color: #9CA3AF;">Good evening, Chef! 👋</p>
-                <p style="font-size: 0.95rem; font-weight: 700; color: #FFF;">What are we cooking today?</p>
-              </div>
-              <div class="app-lang-pill">🌐 বাংলা</div>
-            </div>
-
-            <div class="app-card" style="background: linear-gradient(135deg, rgba(255,107,53,0.18), #181A22); border-color: rgba(255,107,53,0.3);">
-              <div class="app-tag">✨ Gemini AI Smart Pantry</div>
-              <h4 style="font-size: 0.95rem; color: #FFF; margin-bottom: 6px;">Garlic Butter Herb Chicken</h4>
-              <p style="font-size: 0.78rem; color: #9CA3AF; margin-bottom: 10px;">Created from: Chicken Breast, Garlic, Butter, Rice</p>
-              <div style="display: flex; gap: 8px; font-size: 0.72rem; color: #FF8C42; font-weight: 600;">
-                <span>⏱️ 20 min</span>
-                <span>🔥 450 cal</span>
-                <span>👥 2 Servings</span>
-              </div>
-            </div>
-
-            <div class="app-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-size: 0.8rem; font-weight: 700; color: #FFF;">👨‍🍳 AI Chef Assistant</span>
-                <span style="font-size: 0.7rem; color: #10B981;">● Online</span>
-              </div>
-              <p style="font-size: 0.76rem; color: #9CA3AF; background: #12141A; padding: 8px; border-radius: 8px; border-left: 3px solid #FF6B35;">
-                "Scaled garlic amount to 5 cloves and adjusted cooking time to 24 mins for 5 servings!"
-              </p>
-            </div>
-          </div>
+          <img src="screenshots/screen_home.png" alt="CookSmart Live Mobile App Interface" class="phone-screen-img" />
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3. Video Walkthrough & Demos Section -->
-  <section id="video-demo" class="video-section">
+  <!-- 3. Interactive App Screen Walkthrough -->
+  <section id="walkthrough" class="walkthrough-section">
     <div class="container">
       <div class="section-header">
-        <p class="section-badge">Watch It In Action</p>
-        <h2 class="section-title">App Video Walkthrough & Demos</h2>
+        <p class="section-badge">Live Experience</p>
+        <h2 class="section-title">Interactive App Walkthrough</h2>
         <p class="section-subtitle">
-          See how CookSmart turns simple kitchen staples into culinary masterpieces with Google Gemini AI.
+          See exactly how CookSmart looks and behaves on your smartphone. Switch between tabs below to preview the core workflows.
         </p>
       </div>
 
-      <div class="video-container">
-        <div class="video-tabs">
-          <div class="v-tab active" onclick="switchVideo(0, this)">1. Smart AI Pantry Generator</div>
-          <div class="v-tab" onclick="switchVideo(1, this)">2. Ask AI Chef & Portion Scaler</div>
-          <div class="v-tab" onclick="switchVideo(2, this)">3. Bangla (বাংলা) Language Mode</div>
+      <div class="walkthrough-tabs">
+        <button class="w-tab active" onclick="switchWalkthrough(0, this)">
+          <span class="w-tab-num">01</span>
+          <span>Home & Discovery</span>
+        </button>
+        <button class="w-tab" onclick="switchWalkthrough(1, this)">
+          <span class="w-tab-num">02</span>
+          <span>Smart AI Pantry</span>
+        </button>
+        <button class="w-tab" onclick="switchWalkthrough(2, this)">
+          <span class="w-tab-num">03</span>
+          <span>Ask AI Chef</span>
+        </button>
+        <button class="w-tab" onclick="switchWalkthrough(3, this)">
+          <span class="w-tab-num">04</span>
+          <span>বাংলা (Bangla) Mode</span>
+        </button>
+      </div>
+
+      <div class="walkthrough-grid">
+        <!-- Phone Device Frame showing actual screen -->
+        <div class="phone-device" style="box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
+          <div class="phone-notch">
+            <div class="notch-camera"></div>
+          </div>
+          <img id="wtImg" src="screenshots/screen_home.png" alt="CookSmart Active Screen" class="phone-screen-img" />
         </div>
 
-        <div class="video-player-box">
-          <div class="video-canvas" id="videoCanvas">
-            <div class="play-btn-large" onclick="triggerPlayDemo()">▶</div>
-            <h3 id="videoDemoTitle" style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px;">
-              Smart AI Pantry: Zero Food Waste Cooking
-            </h3>
-            <p id="videoDemoDesc" style="color: var(--text-muted); max-width: 500px; font-size: 0.95rem;">
-              Watch how typing 3 ingredients instantly generates a full recipe with quantities, step-by-step instructions, and chef tips.
-            </p>
-            <div style="margin-top: 20px;">
-              <a href="downloads/app-release.apk" download class="btn btn-primary">
-                Download APK to Try Live
-              </a>
-            </div>
+        <!-- Details Card -->
+        <div class="details-card">
+          <div class="details-tag" id="wtTag">Screen 01 • Daily Kitchen Dashboard</div>
+          <h3 class="details-title" id="wtTitle">Home & Recipe Discovery</h3>
+          <p class="details-desc" id="wtDesc">
+            A clean, dark-mode kitchen dashboard with zero clutter. Find featured daily chef recipes, quick filter pills, real-time recipe search, and trending dishes from popular creators.
+          </p>
+
+          <ul class="highlights-list" id="wtList">
+            <li><span class="hl-check">✓</span> <span><strong>1-Tap Category Filters:</strong> Fast (&lt;20m), Healthy, High Protein, Meat, Veggie</span></li>
+            <li><span class="hl-check">✓</span> <span><strong>AI Search Auto-Generation:</strong> Type any dish name to generate a fresh recipe instantly</span></li>
+            <li><span class="hl-check">✓</span> <span><strong>Trending Web Recipes:</strong> Viral cooking inspirations refreshed from online creators</span></li>
+            <li><span class="hl-check">✓</span> <span><strong>Instant Visual Metrics:</strong> Cook time, calories, and ratings clear at a glance</span></li>
+          </ul>
+
+          <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+            <a href="downloads/app-release.apk" download class="btn btn-primary">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>Install to Experience</span>
+            </a>
+            <span style="font-size: 0.85rem; color: var(--text-subtle);">Direct Android APK • 48.7 MB</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 4. Features Grid -->
-  <section id="features" style="padding: 90px 0; border-top: 1px solid var(--border);">
+  <!-- 4. Features Section with Premium Vector Icons -->
+  <section id="features" class="features-section">
     <div class="container">
       <div class="section-header">
         <p class="section-badge">Core Capabilities</p>
-        <h2 class="section-title">Everything You Need In The Kitchen</h2>
-        <p class="section-subtitle">Designed from the ground up for minimal effort and maximum culinary delight.</p>
+        <h2 class="section-title">Designed for Effortless Home Cooking</h2>
+        <p class="section-subtitle">Every feature is crafted to save you time, reduce ingredient waste, and make everyday cooking a joy.</p>
       </div>
 
       <div class="features-grid">
+        <!-- Feature 1: Bilingual -->
         <div class="feature-card">
-          <div class="feature-icon">🌐</div>
+          <div class="feature-icon-box">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
           <h3 class="feature-title">Bilingual English & বাংলা</h3>
           <p class="feature-desc">
-            1-tap instant switch between English and Bangla. Gemini AI outputs recipes, cooking steps, and chef advice in fluent, authentic Bengali script.
+            1-tap instant switch between English and natural Bengali. Gemini AI outputs complete recipes, ingredient amounts, and step-by-step instructions in natural Bengali script.
           </p>
         </div>
 
+        <!-- Feature 2: Smart Pantry -->
         <div class="feature-card">
-          <div class="feature-icon">🪄</div>
+          <div class="feature-icon-box">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3L12 3z"/>
+            </svg>
+          </div>
           <h3 class="feature-title">Gemini AI Smart Pantry</h3>
           <p class="feature-desc">
-            Type or tap your existing ingredients. Gemini intelligently balances flavor profiles and generates complete recipes with preparation steps and cooking times.
+            Type or tap ingredients you already have in your kitchen. Gemini intelligently calculates flavor profiles and produces a custom, balanced recipe tailored to your exact items.
           </p>
         </div>
 
+        <!-- Feature 3: Interactive Sous Chef -->
         <div class="feature-card">
-          <div class="feature-icon">👨‍🍳</div>
-          <h3 class="feature-title">Interactive AI Sous Chef</h3>
+          <div class="feature-icon-box">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M6 13.8V4a2 2 0 1 1 4 0v9.8m4-9.8v9.8m4-9.8v9.8M6 10h12M7 19a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-5H7v5z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Ask AI Chef Assistant</h3>
           <p class="feature-desc">
-            Need to scale a recipe for 5 people? Missing an ingredient? Ask your AI Chef for immediate portion calculations, ingredient substitutions, and air-fryer conversions.
+            Need to scale a recipe for 5 people? Missing an ingredient? Ask your AI Chef for immediate portion calculations, ingredient swaps, and air-fryer temperature conversions.
           </p>
         </div>
 
+        <!-- Feature 4: Step-by-Step Checklist -->
         <div class="feature-card">
-          <div class="feature-icon">⏱️</div>
-          <h3 class="feature-title">Step-by-Step Checklist</h3>
+          <div class="feature-icon-box">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="13" r="8"/>
+              <path d="M12 9v4l2 2m-2-11v2m-6-1 2 2m10-2-2 2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Cooking Mode & Checklist</h3>
           <p class="feature-desc">
-            Interactive cooking checklist with time badges for each step. Check off items as you prep and cook without losing your place.
+            Interactive step-by-step cooking checklist with time badges for each stage. Check off items as you prep and cook without losing track of your place.
           </p>
         </div>
 
+        <!-- Feature 5: Offline Saved Vault -->
         <div class="feature-card">
-          <div class="feature-icon">🔖</div>
+          <div class="feature-icon-box">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
           <h3 class="feature-title">Offline Saved Recipes</h3>
           <p class="feature-desc">
-            Save favorite recipes for instant offline access. Sort by preparation time, rating, or dietary preferences with quick filter pills.
+            Bookmark your favorite creations for offline access anytime. Filter by cook time, dietary preferences, or sort by rating and recipe name.
           </p>
         </div>
 
+        <!-- Feature 6: Trending Web Recipes -->
         <div class="feature-card">
-          <div class="feature-icon">🔥</div>
-          <h3 class="feature-title">Trending Web Recipes</h3>
+          <div class="feature-icon-box">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Trending Web Inspirations</h3>
           <p class="feature-desc">
-            Discover viral culinary sensations inspired by TikTok Food, NYT Cooking, and Tasty with one tap of the 'Discover' button.
+            Discover viral culinary sensations inspired by TikTok Food, NYT Cooking, and Tasty with one tap of the 'Discover' refresh button.
           </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 5. Technical Specifications & Android Studio Guide -->
-  <section id="specs" style="padding: 90px 0; border-top: 1px solid var(--border); background: var(--bg-surface);">
+  <!-- 5. User Specifications & Device Compatibility -->
+  <section id="specs" class="specs-section">
     <div class="container">
       <div class="section-header">
-        <p class="section-badge">Engineering & Compatibility</p>
-        <h2 class="section-title">Technical Specifications</h2>
-        <p class="section-subtitle">Built with modern Flutter 3 architecture, Material 3, and production Gradle toolchains.</p>
+        <p class="section-badge">Device & App Details</p>
+        <h2 class="section-title">Compatibility & App Specifications</h2>
+        <p class="section-subtitle">Lightweight, private, and optimized for seamless performance on any modern Android device.</p>
       </div>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px;">
-        <div class="feature-card">
-          <h3 class="feature-title">📱 APK Release Info</h3>
+      <div class="specs-grid">
+        <div class="specs-card">
+          <h3 class="specs-card-title">
+            <svg width="22" height="22" fill="none" stroke="var(--primary)" stroke-width="2" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            <span>📱 Device Compatibility</span>
+          </h3>
           <table class="specs-table">
             <tr>
-              <td>Package Name</td>
-              <td>com.cooksmart.cooksmart</td>
+              <td>Supported OS</td>
+              <td>Android 5.0 (Lollipop) to Android 14 & 15</td>
             </tr>
             <tr>
-              <td>Version</td>
-              <td>1.0.0 (Build 1)</td>
+              <td>Supported Brands</td>
+              <td>Samsung, Pixel, Xiaomi, OnePlus, Vivo, Oppo, Realme, etc.</td>
             </tr>
             <tr>
-              <td>File Size</td>
-              <td>48.7 MB</td>
+              <td>Download Size</td>
+              <td>48.7 MB (Lightweight)</td>
             </tr>
             <tr>
-              <td>Min Android SDK</td>
-              <td>API 21 (Android 5.0+)</td>
+              <td>Architecture</td>
+              <td>Universal (arm64-v8a, armeabi-v7a, x86_64)</td>
             </tr>
             <tr>
-              <td>Target Android SDK</td>
-              <td>API 34 (Android 14)</td>
-            </tr>
-            <tr>
-              <td>ABI Support</td>
-              <td>arm64-v8a, armeabi-v7a, x86_64</td>
+              <td>Internet Needed</td>
+              <td>Only for AI generations; saved recipes work offline</td>
             </tr>
           </table>
         </div>
 
-        <div class="feature-card">
-          <h3 class="feature-title">🛠️ Android Studio Build Guide</h3>
-          <div style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.6;">
-            <p style="margin-bottom: 12px;"><strong style="color: var(--text-main);">1. Open in Android Studio:</strong> File &rarr; Open &rarr; Select <code>cook-master/flutter_app</code> folder.</p>
-            <p style="margin-bottom: 12px;"><strong style="color: var(--text-main);">2. Sync Dependencies:</strong> Run <code>flutter pub get</code> in terminal or tap "Pub get" in the top notification bar.</p>
-            <p style="margin-bottom: 12px;"><strong style="color: var(--text-main);">3. Run or Build:</strong> Select your connected Android phone or Emulator and tap the green <strong>Run</strong> button (Shift+F10).</p>
-            <p><strong style="color: var(--text-main);">4. Command Line:</strong> <code>flutter build apk --release</code> creates <code>build/app/outputs/flutter-apk/app-release.apk</code>.</p>
-          </div>
+        <div class="specs-card">
+          <h3 class="specs-card-title">
+            <svg width="22" height="22" fill="none" stroke="var(--green)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>🛡️ Privacy & AI Details</span>
+          </h3>
+          <table class="specs-table">
+            <tr>
+              <td>Pricing</td>
+              <td>100% Free • No Subscription</td>
+            </tr>
+            <tr>
+              <td>Account / Login</td>
+              <td>None required • Zero Sign-in</td>
+            </tr>
+            <tr>
+              <td>Advertisements</td>
+              <td>Zero Ads • Clean experience</td>
+            </tr>
+            <tr>
+              <td>AI Engine</td>
+              <td>Google Gemini 2.5 Flash</td>
+            </tr>
+            <tr>
+              <td>Languages Supported</td>
+              <td>English & বাংলা (Bengali)</td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 6. Download & Install Instructions -->
-  <section id="how-to-install" class="download-section">
+  <!-- 6. Download & Install Section with Verified QR Code -->
+  <section id="download" class="download-section">
     <div class="container">
       <div class="download-card">
         <div>
-          <span class="logo-badge" style="margin-bottom: 16px; display: inline-block;">Instant Mobile Access</span>
+          <span class="logo-badge" style="margin-bottom: 16px; display: inline-block;">Ready to Install</span>
           <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 16px;">Download CookSmart APK</h2>
-          <p style="color: var(--text-muted); margin-bottom: 28px; line-height: 1.5;">
-            Ready to cook delicious meals with zero waste? Download the official APK directly to your phone. Completely free, no login or subscription required.
+          <p style="color: var(--text-muted); margin-bottom: 24px; line-height: 1.55;">
+            Start cooking smarter with zero food waste. Download the official Android APK directly to your phone. No sign-up, no hidden fees, just great meals.
           </p>
 
-          <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px;">
+          <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
             <a href="downloads/app-release.apk" download class="btn btn-primary btn-large">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Download APK (48.7 MB)</span>
@@ -848,50 +986,22 @@
             </a>
           </div>
 
-          <div style="font-size: 0.825rem; color: var(--text-subtle);">
-            <strong>Installation Note:</strong> When prompted by Chrome or your browser, select <em>"Download Anyway"</em>, then tap the completed download and choose <em>"Install"</em>.
+          <div class="install-steps-row">
+            <div class="step-pill">
+              <strong>Step 1:</strong> Tap Download APK
+            </div>
+            <div class="step-pill">
+              <strong>Step 2:</strong> Tap file when download finishes
+            </div>
+            <div class="step-pill">
+              <strong>Step 3:</strong> Choose Install & Enjoy!
+            </div>
           </div>
         </div>
 
-        <div style="text-align: center;">
-          <div class="qr-box">
-            <svg width="180" height="180" viewBox="0 0 100 100" fill="#000">
-              <rect x="0" y="0" width="30" height="30" fill="#000"/>
-              <rect x="5" y="5" width="20" height="20" fill="#FFF"/>
-              <rect x="9" y="9" width="12" height="12" fill="#000"/>
-
-              <rect x="70" y="0" width="30" height="30" fill="#000"/>
-              <rect x="75" y="5" width="20" height="20" fill="#FFF"/>
-              <rect x="79" y="9" width="12" height="12" fill="#000"/>
-
-              <rect x="0" y="70" width="30" height="30" fill="#000"/>
-              <rect x="5" y="75" width="20" height="20" fill="#FFF"/>
-              <rect x="9" y="79" width="12" height="12" fill="#000"/>
-
-              <rect x="40" y="10" width="6" height="6"/>
-              <rect x="52" y="10" width="6" height="6"/>
-              <rect x="40" y="24" width="6" height="6"/>
-              <rect x="52" y="24" width="6" height="6"/>
-
-              <rect x="10" y="40" width="6" height="6"/>
-              <rect x="24" y="40" width="6" height="6"/>
-              <rect x="10" y="52" width="6" height="6"/>
-              <rect x="24" y="52" width="6" height="6"/>
-
-              <rect x="40" y="40" width="20" height="20" fill="#FF6B35"/>
-              <rect x="66" y="40" width="8" height="8"/>
-              <rect x="80" y="40" width="12" height="6"/>
-              <rect x="66" y="54" width="10" height="6"/>
-              <rect x="82" y="54" width="10" height="10"/>
-
-              <rect x="40" y="70" width="10" height="8"/>
-              <rect x="56" y="70" width="14" height="6"/>
-              <rect x="40" y="84" width="8" height="10"/>
-              <rect x="54" y="84" width="14" height="10"/>
-              <rect x="74" y="76" width="16" height="16"/>
-            </svg>
-            <p>Scan to Download on Phone</p>
-          </div>
+        <div class="qr-box">
+          <img src="qr.svg" alt="Scan to Download CookSmart APK" />
+          <p>Scan with Phone Camera to Download</p>
         </div>
       </div>
     </div>
@@ -903,43 +1013,90 @@
       <div style="display: flex; align-items: center; gap: 8px;">
         <span style="font-size: 1.25rem;">🍳</span>
         <span style="font-weight: 700; color: var(--text-main);">CookSmart</span>
-        <span>• Built with Flutter & Google Gemini AI</span>
+        <span>• Powered by Google Gemini AI</span>
       </div>
 
       <div class="footer-links">
-        <a href="downloads/app-release.apk" download>Direct APK Download</a>
-        <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank">GitHub Repo</a>
-        <a href="#video-demo">Video Demos</a>
-        <a href="#specs">Specifications</a>
+        <a href="downloads/app-release.apk" download>Download APK</a>
+        <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank">GitHub Repository</a>
+        <a href="#walkthrough">App Walkthrough</a>
+        <a href="#specs">Compatibility</a>
       </div>
     </div>
   </footer>
 
   <script>
-    const videoData = [
+    const screens = [
       {
-        title: "Smart AI Pantry: Zero Food Waste Cooking",
-        desc: "Watch how selecting Chicken, Garlic, and Butter generates an exact recipe with ingredient amounts, cook time, calories, and step-by-step instructions.",
+        tag: "Screen 01 • Daily Kitchen Dashboard",
+        title: "Home & Recipe Discovery",
+        desc: "A clean, dark-mode kitchen dashboard with zero clutter. Find featured daily chef recipes, quick filter pills, real-time recipe search, and trending dishes from popular creators.",
+        image: "screenshots/screen_home.png",
+        highlights: [
+          "<strong>1-Tap Category Filters:</strong> Fast (<20m), Healthy, High Protein, Meat, Veggie",
+          "<strong>AI Search Auto-Generation:</strong> Type any dish name to generate a fresh recipe instantly",
+          "<strong>Trending Web Recipes:</strong> Viral cooking inspirations refreshed from online creators",
+          "<strong>Instant Visual Metrics:</strong> Cook time, calories, and ratings clear at a glance"
+        ]
       },
       {
-        title: "Ask AI Chef: Real-Time Customization",
-        desc: "See how the interactive AI Chef instantly scales any recipe for 5 people, calculates replacement ingredients, and gives air fryer temperature conversions.",
+        tag: "Screen 02 • Zero Food Waste",
+        title: "Smart AI Pantry & Recipe Generator",
+        desc: "Have leftover chicken, garlic, and butter in your fridge? Add them to your basket and tap 'Make Recipe with Gemini AI' to produce a unique, balanced recipe in seconds.",
+        image: "screenshots/screen_pantry.png",
+        highlights: [
+          "<strong>Interactive Pantry Basket:</strong> Quick-add essentials like Garlic, Butter, Chicken, Rice",
+          "<strong>Dietary Preferences:</strong> High Protein, Gluten-Free, No Meat, Quick cook times",
+          "<strong>Gemini 2.5 Flash Engine:</strong> Calculates exact ingredient proportions and step-by-step instructions",
+          "<strong>1-Tap Undo & Basket Clear:</strong> Effortless, intuitive pantry management"
+        ]
       },
       {
-        title: "Bilingual Mode: English & বাংলা Instant Toggle",
-        desc: "Experience 1-tap language switching. All navigation tabs, ingredients, cooking checklists, and Gemini AI outputs are rendered in fluent Bengali script.",
+        tag: "Screen 03 • Interactive Sous Chef",
+        title: "Ask AI Chef: Conversational Assistant",
+        desc: "Your 24/7 personal cooking assistant. Get immediate answers to tricky kitchen questions, adjust serving sizes, calculate missing ingredient swaps, or convert oven recipes to air fryer.",
+        image: "screenshots/screen_chef.png",
+        highlights: [
+          "<strong>Automatic Portion Scaling:</strong> Scale recipes for 2, 5, or 10 guests instantly",
+          "<strong>Smart Ingredient Substitutions:</strong> Find replacements for dairy, wine, or gluten",
+          "<strong>Air Fryer & Speed Conversions:</strong> Temperature adjustments and faster cooking tips",
+          "<strong>Everyday English Guidance:</strong> Friendly, jargon-free explanations anyone can follow"
+        ]
+      },
+      {
+        tag: "Screen 04 • Bilingual Experience",
+        title: "বাংলা (Bangla) Language Mode",
+        desc: "CookSmart provides authentic, native Bengali language support across the entire app. With a single tap, navigation tabs, pantry ingredients, filters, and Gemini AI recipes switch to Bengali.",
+        image: "screenshots/screen_bangla.png",
+        highlights: [
+          "<strong>1-Tap Toggle:</strong> Instant header button to switch between English and বাংলা",
+          "<strong>Gemini AI Bengali Outputs:</strong> Complete recipe titles, ingredients, and steps in Bengali script",
+          "<strong>Localized Staples:</strong> রসুন, তেল, পেঁয়াজ, মুরগি, ভাত/চাল, মাখন, ইত্যাদি",
+          "<strong>Culturally Adapted Recipes:</strong> Authentic culinary advice in fluent Bengali"
+        ]
       }
     ];
 
-    function switchVideo(index, tabEl) {
-      document.querySelectorAll('.v-tab').forEach(t => t.classList.remove('active'));
-      tabEl.classList.add('active');
-      document.getElementById('videoDemoTitle').innerText = videoData[index].title;
-      document.getElementById('videoDemoDesc').innerText = videoData[index].desc;
-    }
+    function switchWalkthrough(index, btnEl) {
+      document.querySelectorAll('.w-tab').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
 
-    function triggerPlayDemo() {
-      alert("Starting CookSmart video walkthrough demo. You can also download the Android APK below to try the full application on your phone!");
+      const data = screens[index];
+      const img = document.getElementById('wtImg');
+      
+      // Smooth fade transition
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = data.image;
+        img.style.opacity = '1';
+      }, 150);
+
+      document.getElementById('wtTag').innerText = data.tag;
+      document.getElementById('wtTitle').innerText = data.title;
+      document.getElementById('wtDesc').innerText = data.desc;
+
+      const listEl = document.getElementById('wtList');
+      listEl.innerHTML = data.highlights.map(h => '<li><span class="hl-check">✓</span> <span>' + h + '</span></li>').join('');
     }
   </script>
 </body>
