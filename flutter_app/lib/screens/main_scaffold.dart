@@ -24,40 +24,41 @@ class MainScaffold extends StatelessWidget {
           SavedScreen(appState: appState),
         ];
 
-        return Scaffold(
-          backgroundColor: AppColors.background,
-          body: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 420),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: AppColors.background,
-                  border: Border.symmetric(
-                    vertical: BorderSide(
-                      color: MediaQuery.of(context).size.width > 420
-                          ? AppColors.borderSubtle
-                          : Colors.transparent,
-                    ),
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: IndexedStack(
-                        index: appState.currentTabIndex,
-                        children: screens,
-                      ),
-                    ),
-                    BottomNavBar(
-                      currentIndex: appState.currentTabIndex,
-                      onTabSelected: (index) => appState.setTab(index),
-                      language: appState.language,
-                    ),
-                  ],
-                ),
+        final isLargeScreen = MediaQuery.of(context).size.width > 600;
+        final content = Column(
+          children: [
+            Expanded(
+              child: IndexedStack(
+                index: appState.currentTabIndex,
+                children: screens,
               ),
             ),
-          ),
+            BottomNavBar(
+              currentIndex: appState.currentTabIndex,
+              onTabSelected: (index) => appState.setTab(index),
+              language: appState.language,
+            ),
+          ],
+        );
+
+        return Scaffold(
+          backgroundColor: AppColors.background,
+          body: isLargeScreen
+              ? Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 420),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: AppColors.background,
+                        border: Border.symmetric(
+                          vertical: BorderSide(color: AppColors.borderSubtle),
+                        ),
+                      ),
+                      child: content,
+                    ),
+                  ),
+                )
+              : content,
         );
       },
     );
