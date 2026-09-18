@@ -436,7 +436,7 @@ class _SavedScreenState extends State<SavedScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    recipe.title,
+                                    recipe.getTitle(appState.isBangla),
                                     style: const TextStyle(
                                       color: AppColors.textWhite,
                                       fontSize: 12,
@@ -492,12 +492,12 @@ class _SavedScreenState extends State<SavedScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
-                        Icon(Icons.auto_awesome, color: AppColors.primaryOrange, size: 18),
-                        SizedBox(width: 6),
+                      children: [
+                        const Icon(Icons.auto_awesome, color: AppColors.primaryOrange, size: 18),
+                        const SizedBox(width: 6),
                         Text(
-                          'SMART ASSISTANT',
-                          style: TextStyle(
+                          appState.tr('smartAssistant'),
+                          style: const TextStyle(
                             color: AppColors.primaryOrange,
                             fontSize: 10,
                             fontWeight: FontWeight.w800,
@@ -507,24 +507,27 @@ class _SavedScreenState extends State<SavedScreen> {
                       ],
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      'Want new dinner inspiration?',
-                      style: TextStyle(
+                    Text(
+                      appState.tr('wantNewInspiration'),
+                      style: const TextStyle(
                         color: AppColors.textWhite,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     const SizedBox(height: 4),
-                    const Text(
-                      'Tell CookSmart what ingredients you have in your fridge.',
-                      style: TextStyle(color: AppColors.textMuted, fontSize: 12),
+                    Text(
+                      appState.tr('tellFridgeIngredients'),
+                      style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
                     ),
                     const SizedBox(height: 12),
                     ElevatedButton.icon(
                       onPressed: () => appState.setTab(1),
                       icon: const Icon(Icons.add, size: 16),
-                      label: const Text('+ Add Ingredients', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                      label: Text(
+                        appState.tr('addIngredients'),
+                        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primaryOrange,
                         foregroundColor: Colors.white,

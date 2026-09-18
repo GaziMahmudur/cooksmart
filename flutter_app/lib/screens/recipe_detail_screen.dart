@@ -33,14 +33,16 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   void _toggleSaveWithFeedback() {
     final recipe = widget.recipe;
+    final isBn = widget.appState.isBangla;
+    final title = recipe.getTitle(isBn);
     final willSave = !recipe.isSaved;
     widget.appState.toggleSaveRecipe(recipe.id);
     setState(() {});
 
     final msg = willSave
-        ? (widget.appState.isBangla
-            ? 'পছন্দের তালিকায় "${recipe.title}" সেভ করা হয়েছে'
-            : 'Saved "${recipe.title}" to My Recipes')
+        ? (isBn
+            ? 'পছন্দের তালিকায় "$title" সেভ করা হয়েছে'
+            : 'Saved "$title" to My Recipes')
         : widget.appState.tr('removedFromFavorites');
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -54,19 +56,25 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
 
   void _handleShare() {
     final recipe = widget.recipe;
+    final isBn = widget.appState.isBangla;
+    final title = recipe.getTitle(isBn);
+    final ingredients = recipe.getIngredients(isBn);
+    final steps = recipe.getSteps(isBn);
+    final proTip = recipe.getProTip(isBn);
+
     final summary = StringBuffer();
-    summary.writeln('🍳 CookSmart Recipe: ${recipe.title}');
+    summary.writeln('🍳 CookSmart Recipe: $title');
     summary.writeln('⏱️ Cook Time: ${recipe.cookTime} | 🔥 ${recipe.calories} | 👥 ${recipe.servings}');
     summary.writeln('\n🛒 Ingredients:');
-    for (final ing in recipe.ingredients) {
+    for (final ing in ingredients) {
       summary.writeln('• $ing');
     }
     summary.writeln('\n👨‍🍳 Steps:');
-    for (final step in recipe.steps) {
-      summary.writeln('${step.stepNumber}. ${step.title} (${step.timeBadge}): ${step.instruction}');
+    for (final step in steps) {
+      summary.writeln('${step.stepNumber}. ${step.getTitle(isBn)} (${step.timeBadge}): ${step.getInstruction(isBn)}');
     }
-    if (recipe.proTip.isNotEmpty) {
-      summary.writeln('\n💡 Chef\'s Pro Tip: ${recipe.proTip}');
+    if (proTip.isNotEmpty) {
+      summary.writeln('\n💡 Chef\'s Pro Tip: $proTip');
     }
 
     Clipboard.setData(ClipboardData(text: summary.toString()));
@@ -84,6 +92,12 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   Widget build(BuildContext context) {
     final recipe = widget.recipe;
     final isSaved = recipe.isSaved;
+    final isBn = widget.appState.isBangla;
+    final title = recipe.getTitle(isBn);
+    final subtitle = recipe.getSubtitle(isBn);
+    final ingredients = recipe.getIngredients(isBn);
+    final steps = recipe.getSteps(isBn);
+    final proTip = recipe.getProTip(isBn);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -218,9 +232,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                               ),
                               child: Row(
                                 children: [
-                                  const Icon(Icons.auto_awesome, color: Colors.black, size: 12),
-                                  const SizedBox(width: 4),
-                                  Text(
+                                   const Icon(Icons.auto_awesome, color: Colors.black, size: 12),
+                                   const SizedBox(width: 4),
+                                   Text(
                                     recipe.sourceBadge.isNotEmpty ? recipe.sourceBadge : 'CookSmart AI',
                                     style: const TextStyle(
                                       color: Colors.black,
@@ -283,7 +297,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          recipe.title,
+                          title,
                           style: const TextStyle(
                             color: AppColors.textWhite,
                             fontSize: 22,
@@ -292,13 +306,14 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          recipe.subtitle,
+                          subtitle,
                           style: const TextStyle(
                             color: AppColors.textMuted,
                             fontSize: 13,
                             height: 1.4,
                           ),
                         ),
+
                         const SizedBox(height: 18),
 
                         // 4. Quick Metrics Grid
@@ -347,8 +362,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             ),
                             Text(
                               widget.appState.isBangla
-                                  ? '(${recipe.ingredients.length} টি উপকরণ)'
-                                  : '(${recipe.ingredients.length} items)',
+                                  ? '(${ingredients.length} টি উপকরণ)'
+                                  : '(${ingredients.length} items)',
                               style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
                             ),
                           ],
@@ -358,9 +373,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: recipe.ingredients.length,
+                          itemCount: ingredients.length,
                           itemBuilder: (context, index) {
-                            final item = recipe.ingredients[index];
+                            final item = ingredients[index];
                             final isChecked = _checkedIngredients.contains(index);
 
                             return GestureDetector(
@@ -440,9 +455,9 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: recipe.steps.length,
+                          itemCount: steps.length,
                           itemBuilder: (context, index) {
-                            final step = recipe.steps[index];
+                            final step = steps[index];
                             return Container(
                               margin: const EdgeInsets.only(bottom: 14),
                               padding: const EdgeInsets.all(14),
@@ -479,7 +494,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                           ),
                                           const SizedBox(width: 8),
                                           Text(
-                                            step.title,
+                                            step.getTitle(isBn),
                                             style: const TextStyle(
                                               color: AppColors.textWhite,
                                               fontSize: 14,
@@ -508,7 +523,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    step.instruction,
+                                    step.getInstruction(isBn),
                                     style: const TextStyle(
                                       color: AppColors.textMuted,
                                       fontSize: 13,
@@ -524,7 +539,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     ),
                   ),
 
-                  if (recipe.proTip.isNotEmpty) ...[
+                  if (proTip.isNotEmpty) ...[
                     const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -554,7 +569,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    recipe.proTip,
+                                    proTip,
                                     style: const TextStyle(
                                       color: AppColors.textMuted,
                                       fontSize: 12,
@@ -569,6 +584,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       ),
                     ),
                   ],
+
 
                   // 7. Interactive Ask AI Chef Helper Card
                   const SizedBox(height: 16),
@@ -694,8 +710,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             widget.appState.toggleSaveRecipe(recipe.id);
                             setState(() {});
                             final msg = widget.appState.isBangla
-                                ? 'পছন্দের তালিকায় "${recipe.title}" সেভ করা হয়েছে'
-                                : 'Saved "${recipe.title}" to My Recipes';
+                                ? 'পছন্দের তালিকায় "$title" সেভ করা হয়েছে'
+                                : 'Saved "$title" to My Recipes';
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(msg),

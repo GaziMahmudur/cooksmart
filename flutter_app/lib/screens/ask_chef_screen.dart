@@ -51,14 +51,15 @@ class _AskChefScreenState extends State<AskChefScreen> {
     final activeRecipe = widget.appState.selectedAskRecipe;
     final isBn = widget.appState.isBangla;
     if (activeRecipe != null) {
+      final title = activeRecipe.getTitle(isBn);
       final welcome = isBn
-          ? "👋 নমস্কার! আমি আপনার এআই শেফ। আপনি বেছে নিয়েছেন **${activeRecipe.title}** (পরিবেশন: ${activeRecipe.servings})।\n\nআমায় যেকোনো প্রশ্ন করতে পারেন! যেমন: নিচের **'৫ জনের জন্য মাপ দিন'** বাটনে চাপ দিয়ে উপকরণের নতুন মাপ বের করতে পারেন, বিকল্প উপকরণ জানতে পারেন বা রান্নার সময় কমাতে পারেন।"
-          : "👋 Hi! I'm your AI Chef. You selected **${activeRecipe.title}** (serves ${activeRecipe.servings}).\n\nAsk me anything! For example: tap **'Scale for 5 people'** to get adjusted ingredient amounts, ask for substitutions, or get air fryer steps.";
+          ? "👋 নমস্কার! আমি আপনার এআই শেফ। আপনি বেছে নিয়েছেন **$title** (পরিবেশন: ${activeRecipe.servings})।\n\nআমায় যেকোনো প্রশ্ন করতে পারেন! যেমন: নিচের **'৫ জনের জন্য মাপ দিন'** বাটনে চাপ দিয়ে উপকরণের নতুন মাপ বের করতে পারেন, বিকল্প উপকরণ জানতে পারেন বা রান্নার সময় কমাতে পারেন।"
+          : "👋 Hi! I'm your AI Chef. You selected **$title** (serves ${activeRecipe.servings}).\n\nAsk me anything! For example: tap **'Scale for 5 people'** to get adjusted ingredient amounts, ask for substitutions, or get air fryer steps.";
 
       _messages.add(
         _ChatMessage(
           isUser: false,
-          recipeTitle: activeRecipe.title,
+          recipeTitle: title,
           text: welcome,
         ),
       );
@@ -143,6 +144,104 @@ class _AskChefScreenState extends State<AskChefScreen> {
     super.dispose();
   }
 
+
+  void _showRecipeSelectorSheet(BuildContext context) {
+    final appState = widget.appState;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.surfaceCard,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      appState.tr('selectRecipe'),
+                      style: const TextStyle(
+                        color: AppColors.textWhite,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.close, color: AppColors.textMuted),
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: const BoxDecoration(
+                      color: AppColors.surfaceElevated,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.restaurant, color: AppColors.primaryOrange, size: 18),
+                  ),
+                  title: Text(
+                    appState.tr('generalCooking'),
+                    style: const TextStyle(color: AppColors.textWhite, fontSize: 14, fontWeight: FontWeight.w600),
+                  ),
+                  onTap: () {
+                    appState.setAskRecipe(null);
+                    Navigator.pop(ctx);
+                    setState(() {});
+                  },
+                ),
+                ...appState.allRecipes.map((r) {
+                  final isSelected = appState.selectedAskRecipe?.id == r.id;
+                  return ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: Image.network(
+                        r.imageUrl,
+                        width: 36,
+                        height: 36,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(width: 36, height: 36, color: AppColors.surfaceElevated),
+                      ),
+                    ),
+                    title: Text(
+                      r.getTitle(appState.isBangla),
+                      style: TextStyle(
+                        color: isSelected ? AppColors.primaryOrange : AppColors.textWhite,
+                        fontSize: 14,
+                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${r.servings} • ${r.cookTime}',
+                      style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
+                    ),
+                    trailing: isSelected ? const Icon(Icons.check, color: AppColors.primaryOrange, size: 20) : null,
+                    onTap: () {
+                      appState.setAskRecipe(r);
+                      Navigator.pop(ctx);
+                      setState(() {});
+                    },
+                  );
+                }),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = widget.appState;
@@ -153,216 +252,112 @@ class _AskChefScreenState extends State<AskChefScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // 1. Header Bar
+            // 1. Compact Top Bar (Maximizing text space)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               child: Row(
                 children: [
                   Container(
-                    width: 44,
-                    height: 44,
+                    width: 36,
+                    height: 36,
                     decoration: BoxDecoration(
                       color: AppColors.primaryOrange.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
                       border: Border.all(color: AppColors.primaryOrange.withValues(alpha: 0.4)),
                     ),
                     child: const Center(
-                      child: Icon(Icons.auto_awesome, color: AppColors.primaryOrange, size: 22),
+                      child: Icon(Icons.auto_awesome, color: AppColors.primaryOrange, size: 18),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          appState.tr('askChefTitle'),
-                          style: const TextStyle(
-                            color: AppColors.textWhite,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
+                  const SizedBox(width: 10),
+                  Text(
+                    appState.tr('askChefTitle'),
+                    style: const TextStyle(
+                      color: AppColors.textWhite,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Spacer(),
+                  // Active Recipe Selector / Switcher Pill
+                  GestureDetector(
+                    onTap: () => _showRecipeSelectorSheet(context),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: activeRecipe != null
+                            ? AppColors.primaryOrange.withValues(alpha: 0.15)
+                            : AppColors.surfaceElevated,
+                        borderRadius: BorderRadius.circular(9999),
+                        border: Border.all(
+                          color: activeRecipe != null
+                              ? AppColors.primaryOrange.withValues(alpha: 0.5)
+                              : AppColors.borderSubtle,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            activeRecipe != null ? Icons.restaurant_menu : Icons.tune,
+                            size: 13,
+                            color: activeRecipe != null ? AppColors.primaryOrange : AppColors.textMuted,
                           ),
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          appState.tr('askChefSubtitle'),
-                          style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
-                        ),
-                      ],
+                          const SizedBox(width: 5),
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 120),
+                            child: Text(
+                              activeRecipe != null
+                                  ? activeRecipe.getTitle(appState.isBangla)
+                                  : appState.tr('selectRecipe'),
+                              style: TextStyle(
+                                color: activeRecipe != null ? AppColors.primaryOrange : AppColors.textMuted,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          const SizedBox(width: 3),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            size: 16,
+                            color: activeRecipe != null ? AppColors.primaryOrange : AppColors.textMuted,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  if (activeRecipe != null)
+                  if (activeRecipe != null) ...[
+                    const SizedBox(width: 6),
                     GestureDetector(
                       onTap: () {
                         appState.setAskRecipe(null);
                         setState(() {});
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        padding: const EdgeInsets.all(6),
                         decoration: BoxDecoration(
                           color: AppColors.surfaceElevated,
-                          borderRadius: BorderRadius.circular(9999),
+                          shape: BoxShape.circle,
                           border: Border.all(color: AppColors.borderSubtle),
                         ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.close, color: AppColors.textMuted, size: 14),
-                            const SizedBox(width: 4),
-                            Text(
-                              appState.isBangla ? 'রেসিপি বাদ দিন' : 'Clear Recipe',
-                              style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-
-            // 2. Recipe Selector Chips
-            Container(
-              height: 38,
-              margin: const EdgeInsets.only(bottom: 8),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                children: [
-                  _recipeChip(
-                    title: appState.tr('generalCooking'),
-                    isSelected: activeRecipe == null,
-                    onTap: () {
-                      appState.setAskRecipe(null);
-                      setState(() {});
-                    },
-                  ),
-                  ...appState.allRecipes.map((r) {
-                    final isSelected = activeRecipe?.id == r.id;
-                    return _recipeChip(
-                      title: r.title,
-                      isSelected: isSelected,
-                      onTap: () {
-                        appState.setAskRecipe(r);
-                        setState(() {});
-                        _sendMessage('Tell me how you can help customize ${r.title}');
-                      },
-                    );
-                  }),
-                ],
-              ),
-            ),
-
-            // 3. Active Recipe Banner (if one is selected)
-            if (activeRecipe != null)
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceCard,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.primaryOrange.withValues(alpha: 0.3)),
-                ),
-                child: Row(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        activeRecipe.imageUrl,
-                        width: 40,
-                        height: 40,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          width: 40,
-                          height: 40,
-                          color: AppColors.surfaceElevated,
-                          child: const Icon(Icons.restaurant, size: 20, color: AppColors.textMuted),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            activeRecipe.title,
-                            style: const TextStyle(
-                              color: AppColors.textWhite,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-                          Row(
-                            children: [
-                              const Icon(Icons.group_outlined, size: 12, color: AppColors.primaryOrange),
-                              const SizedBox(width: 4),
-                              Text(
-                                activeRecipe.servings,
-                                style: const TextStyle(color: AppColors.primaryOrange, fontSize: 11, fontWeight: FontWeight.w600),
-                              ),
-                              const SizedBox(width: 10),
-                              const Icon(Icons.schedule, size: 12, color: AppColors.textMuted),
-                              const SizedBox(width: 4),
-                              Text(
-                                activeRecipe.cookTime,
-                                style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
-                              ),
-                            ],
-                          ),
-                        ],
+                        child: const Icon(Icons.close, color: AppColors.textMuted, size: 13),
                       ),
                     ),
                   ],
-                ),
-              ),
-
-            // 4. Quick Suggested Prompts
-            Container(
-              height: 36,
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              child: Builder(
-                builder: (context) {
-                  final prompts = _getQuickPrompts(appState);
-                  return ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    itemCount: prompts.length,
-                    itemBuilder: (context, index) {
-                      final prompt = prompts[index];
-                      return GestureDetector(
-                        onTap: () => _sendMessage(prompt),
-                        child: Container(
-                          margin: const EdgeInsets.only(right: 8),
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceElevated,
-                            borderRadius: BorderRadius.circular(9999),
-                            border: Border.all(color: AppColors.borderSubtle),
-                          ),
-                          child: Center(
-                            child: Text(
-                              prompt,
-                              style: const TextStyle(color: AppColors.textWhite, fontSize: 12),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
+                ],
               ),
             ),
 
             const Divider(color: AppColors.borderSubtle, height: 1),
 
-            // 5. Chat History
+            // 2. Chat History (Full Expanded Height)
             Expanded(
               child: ListView.builder(
                 controller: _scrollController,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   final msg = _messages[index];
@@ -374,11 +369,11 @@ class _AskChefScreenState extends State<AskChefScreen> {
             // Loading indicator
             if (_isThinking)
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       decoration: BoxDecoration(
                         color: AppColors.surfaceElevated,
                         borderRadius: BorderRadius.circular(16),
@@ -407,9 +402,46 @@ class _AskChefScreenState extends State<AskChefScreen> {
                 ),
               ),
 
-            // 6. Text Input Bar
+            // 3. Compact Suggested Prompts (Docked above input)
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              height: 34,
+              margin: const EdgeInsets.only(bottom: 6),
+              child: Builder(
+                builder: (context) {
+                  final prompts = _getQuickPrompts(appState);
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: prompts.length,
+                    itemBuilder: (context, index) {
+                      final prompt = prompts[index];
+                      return GestureDetector(
+                        onTap: () => _sendMessage(prompt),
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceElevated,
+                            borderRadius: BorderRadius.circular(9999),
+                            border: Border.all(color: AppColors.borderSubtle),
+                          ),
+                          child: Center(
+                            child: Text(
+                              prompt,
+                              style: const TextStyle(color: AppColors.textWhite, fontSize: 11, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+
+            // 4. Centered Clean Text Input Bar
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: const BoxDecoration(
                 color: AppColors.surfaceCard,
                 border: Border(top: BorderSide(color: AppColors.borderSubtle)),
@@ -420,6 +452,7 @@ class _AskChefScreenState extends State<AskChefScreen> {
                     child: Container(
                       height: 48,
                       padding: const EdgeInsets.symmetric(horizontal: 16),
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: AppColors.surfaceElevated,
                         borderRadius: BorderRadius.circular(9999),
@@ -427,16 +460,14 @@ class _AskChefScreenState extends State<AskChefScreen> {
                       ),
                       child: TextField(
                         controller: _inputController,
+                        textAlignVertical: TextAlignVertical.center,
                         style: const TextStyle(color: AppColors.textWhite, fontSize: 13),
                         decoration: InputDecoration(
-                          hintText: activeRecipe != null
-                              ? (appState.isBangla
-                                  ? '${activeRecipe.title} সম্পর্কে জিজ্ঞাসা করুন...'
-                                  : 'Ask about ${activeRecipe.title}...')
-                              : appState.tr('askInputHint'),
+                          hintText: appState.tr('askInputHint'),
                           hintStyle: const TextStyle(color: AppColors.textSubtle, fontSize: 13),
                           border: InputBorder.none,
                           isDense: true,
+                          contentPadding: EdgeInsets.zero,
                         ),
                         onSubmitted: (val) => _sendMessage(val),
                       ),
@@ -468,39 +499,6 @@ class _AskChefScreenState extends State<AskChefScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _recipeChip({
-    required String title,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        margin: const EdgeInsets.only(right: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primaryOrange : AppColors.surfaceCard,
-          borderRadius: BorderRadius.circular(9999),
-          border: Border.all(
-            color: isSelected ? AppColors.primaryOrange : AppColors.borderSubtle,
-          ),
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: TextStyle(
-              color: isSelected ? Colors.white : AppColors.textMuted,
-              fontSize: 12,
-              fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-            ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
         ),
       ),
     );

@@ -61,7 +61,11 @@ class _HomeScreenState extends State<HomeScreen> {
       widget.appState.addDiscoveredRecipes(newRecipes);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('✨ Found ${newRecipes.length} fresh trending dishes!'),
+          content: Text(
+            widget.appState.isBangla
+                ? '✨ ${newRecipes.length}টি নতুন ট্রেন্ডিং রেসিপি যুক্ত হয়েছে!'
+                : '✨ Found ${newRecipes.length} fresh trending dishes!',
+          ),
           backgroundColor: AppColors.surfaceElevated,
           duration: const Duration(seconds: 2),
         ),
@@ -69,8 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
     } catch (_) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Could not refresh web recipes. Check connection.'),
+        SnackBar(
+          content: Text(
+            widget.appState.isBangla
+                ? 'রেসিপি রিফ্রেশ করা যায়নি। ইন্টারনেট সংযোগ চেক করুন।'
+                : 'Could not refresh web recipes. Check connection.',
+          ),
           backgroundColor: Colors.redAccent,
         ),
       );
@@ -113,9 +121,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return widget.appState.allRecipes.where((recipe) {
       final matchesSearch = query.isEmpty ||
           recipe.title.toLowerCase().contains(query) ||
+          (recipe.titleBn?.toLowerCase().contains(query) ?? false) ||
           recipe.subtitle.toLowerCase().contains(query) ||
+          (recipe.subtitleBn?.toLowerCase().contains(query) ?? false) ||
           recipe.tags.any((t) => t.toLowerCase().contains(query)) ||
-          recipe.ingredients.any((i) => i.toLowerCase().contains(query));
+          recipe.ingredients.any((i) => i.toLowerCase().contains(query)) ||
+          (recipe.ingredientsBn?.any((i) => i.toLowerCase().contains(query)) ?? false);
 
       bool matchesCategory = true;
       if (category == '🔥 All' || category == '🔥 Trending') {
@@ -509,100 +520,165 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 1. Header Bar
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryOrange.withValues(alpha: 0.15),
-                        shape: BoxShape.circle,
-                        border: Border.all(color: AppColors.primaryOrange.withValues(alpha: 0.4)),
-                      ),
-                      child: const Center(
-                        child: Icon(Icons.local_fire_department, color: AppColors.primaryOrange, size: 24),
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            appState.tr('greeting'),
-                            style: const TextStyle(
-                              color: AppColors.textWhite,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            appState.tr('homeSubtitle'),
-                            style: const TextStyle(
-                              color: AppColors.textMuted,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    // Language Switch Pill
-                    GestureDetector(
-                      onTap: () => appState.toggleLanguage(),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        child: RefreshIndicator(
+          color: AppColors.primaryOrange,
+          backgroundColor: AppColors.surfaceElevated,
+          onRefresh: () async {
+            await appState.refreshHomeFeed();
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(appState.tr('refreshedSuccess')),
+                  backgroundColor: AppColors.surfaceElevated,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            }
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: const EdgeInsets.only(bottom: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 1. Header Bar
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
                         decoration: BoxDecoration(
-                          color: AppColors.surfaceCard,
-                          borderRadius: BorderRadius.circular(9999),
-                          border: Border.all(
-                            color: appState.isBangla
-                                ? AppColors.primaryOrange
-                                : AppColors.borderSubtle,
-                          ),
+                          color: AppColors.primaryOrange.withValues(alpha: 0.15),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.primaryOrange.withValues(alpha: 0.4)),
                         ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
+                        child: const Center(
+                          child: Icon(Icons.local_fire_department, color: AppColors.primaryOrange, size: 24),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Icon(Icons.language, color: AppColors.primaryOrange, size: 16),
-                            const SizedBox(width: 4),
                             Text(
-                              appState.tr('languageToggle'),
+                              appState.tr('greeting'),
                               style: const TextStyle(
                                 color: AppColors.textWhite,
-                                fontSize: 12,
+                                fontSize: 16,
                                 fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              appState.tr('homeSubtitle'),
+                              style: const TextStyle(
+                                color: AppColors.textMuted,
+                                fontSize: 12,
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    GestureDetector(
-                      onTap: () => _showNotificationsSheet(context),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceCard,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: AppColors.borderSubtle),
+                      // Compact Language Dropdown Menu
+                      PopupMenuButton<String>(
+                        tooltip: 'Language / ভাষা',
+                        color: AppColors.surfaceElevated,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                          side: const BorderSide(color: AppColors.borderSubtle),
                         ),
-                        child: const Icon(Icons.notifications_none, color: AppColors.textWhite, size: 20),
+                        offset: const Offset(0, 42),
+                        onSelected: (lang) => appState.setLanguage(lang),
+                        itemBuilder: (ctx) => [
+                          PopupMenuItem(
+                            value: 'en',
+                            child: Row(
+                              children: [
+                                const Text('🇺🇸', style: TextStyle(fontSize: 15)),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'English',
+                                  style: TextStyle(
+                                    color: !appState.isBangla ? AppColors.primaryOrange : AppColors.textWhite,
+                                    fontWeight: !appState.isBangla ? FontWeight.w700 : FontWeight.w500,
+                                  ),
+                                ),
+                                if (!appState.isBangla) ...[
+                                  const Spacer(),
+                                  const Icon(Icons.check, color: AppColors.primaryOrange, size: 16),
+                                ],
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 'bn',
+                            child: Row(
+                              children: [
+                                const Text('🇧🇩', style: TextStyle(fontSize: 15)),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'বাংলা',
+                                  style: TextStyle(
+                                    color: appState.isBangla ? AppColors.primaryOrange : AppColors.textWhite,
+                                    fontWeight: appState.isBangla ? FontWeight.w700 : FontWeight.w500,
+                                  ),
+                                ),
+                                if (appState.isBangla) ...[
+                                  const Spacer(),
+                                  const Icon(Icons.check, color: AppColors.primaryOrange, size: 16),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ],
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceCard,
+                            borderRadius: BorderRadius.circular(9999),
+                            border: Border.all(
+                              color: appState.isBangla ? AppColors.primaryOrange : AppColors.borderSubtle,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(Icons.language, color: AppColors.primaryOrange, size: 15),
+                              const SizedBox(width: 4),
+                              Text(
+                                appState.language.toUpperCase(),
+                                style: const TextStyle(
+                                  color: AppColors.textWhite,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(width: 2),
+                              const Icon(Icons.arrow_drop_down, color: AppColors.textMuted, size: 16),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () => _showNotificationsSheet(context),
+                        child: Container(
+                          width: 38,
+                          height: 38,
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceCard,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: AppColors.borderSubtle),
+                          ),
+                          child: const Icon(Icons.notifications_none, color: AppColors.textWhite, size: 18),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
 
               // 2. Interactive Search Bar
               Padding(
@@ -1039,7 +1115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      featuredRecipe.title,
+                                      featuredRecipe.getTitle(appState.isBangla),
                                       style: const TextStyle(
                                         color: AppColors.textWhite,
                                         fontSize: 18,
@@ -1048,7 +1124,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     const SizedBox(height: 6),
                                     Text(
-                                      featuredRecipe.subtitle,
+                                      featuredRecipe.getSubtitle(appState.isBangla),
                                       style: const TextStyle(
                                         color: AppColors.textMuted,
                                         fontSize: 13,
@@ -1099,17 +1175,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
-                                            children: const [
+                                            children: [
                                               Text(
-                                                'Cook Now',
-                                                style: TextStyle(
+                                                appState.isBangla ? 'রান্না শুরু করুন' : 'Cook Now',
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                              SizedBox(width: 4),
-                                              Icon(Icons.arrow_forward, color: Colors.white, size: 14),
+                                              const SizedBox(width: 4),
+                                              const Icon(Icons.arrow_forward, color: Colors.white, size: 14),
                                             ],
                                           ),
                                         ),
@@ -1172,10 +1248,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 appState.tr('pantryBannerSubtitle'),
                                 style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),
                         ),
+                        const SizedBox(width: 14),
                         ElevatedButton(
                           onPressed: () => appState.setTab(1),
                           style: ElevatedButton.styleFrom(
@@ -1237,10 +1316,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               Text(
                                 appState.tr('askChefBannerSubtitle'),
                                 style: const TextStyle(color: AppColors.textMuted, fontSize: 12),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),
                         ),
+                        const SizedBox(width: 14),
                         OutlinedButton(
                           onPressed: () => appState.setTab(2),
                           style: OutlinedButton.styleFrom(
@@ -1403,13 +1485,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ],
                               ),
-                              Padding(
+                                  Padding(
                                 padding: const EdgeInsets.all(12),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      recipe.title,
+                                      recipe.getTitle(appState.isBangla),
                                       style: const TextStyle(
                                         color: AppColors.textWhite,
                                         fontSize: 13,
@@ -1420,7 +1502,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     const SizedBox(height: 3),
                                     Text(
-                                      recipe.subtitle,
+                                      recipe.getSubtitle(appState.isBangla),
                                       style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
@@ -1470,8 +1552,10 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Widget _recipeListCard(BuildContext context, Recipe recipe, AppState appState) {
     return GestureDetector(
@@ -1519,7 +1603,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Expanded(
                           child: Text(
-                            recipe.title,
+                            recipe.getTitle(appState.isBangla),
                             style: const TextStyle(
                               color: AppColors.textWhite,
                               fontSize: 14,
@@ -1541,7 +1625,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      recipe.subtitle,
+                      recipe.getSubtitle(appState.isBangla),
                       style: const TextStyle(color: AppColors.textMuted, fontSize: 11),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

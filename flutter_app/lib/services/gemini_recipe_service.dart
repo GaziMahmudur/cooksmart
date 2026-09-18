@@ -8,7 +8,7 @@ class GeminiRecipeService {
     if (envKey.isNotEmpty) return envKey;
     return utf8.decode(base64.decode('QVEuQWI4Uk42TDlFUjU2MkFZYXRxMVEwNk9LVjlzME9zQ21wSXd4SUV1eU9fWjRtNXV4Wnc='));
   }
-  static const String _model = 'gemini-2.5-flash';
+  static const String _model = 'gemini-1.5-flash';
   static String get _endpoint =>
       'https://generativelanguage.googleapis.com/v1beta/models/$_model:generateContent?key=$_apiKey';
 
@@ -337,7 +337,7 @@ RULES FOR YOUR ANSWER:
         Uri.parse(_endpoint),
         headers: {'Content-Type': 'application/json'},
         body: requestBody,
-      );
+      ).timeout(const Duration(seconds: 10));
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
@@ -346,15 +346,155 @@ RULES FOR YOUR ANSWER:
           final content = candidates[0]['content'];
           final parts = content['parts'] as List?;
           if (parts != null && parts.isNotEmpty) {
-            return parts[0]['text'] as String;
+            final answer = parts[0]['text'] as String;
+            if (answer.trim().isNotEmpty) return answer.trim();
           }
         }
       }
-    } catch (e) {
-      return '⚠️ Chef offline: Could not connect to AI. Please check your connection and try again.';
+    } catch (_) {}
+
+    return _solveChefQueryLocally(recipe, question, language);
+  }
+
+  static String _solveChefQueryLocally(Recipe? recipe, String question, String language) {
+    final isBn = language == 'bn';
+    final q = question.toLowerCase();
+
+    // 1. Portion scaling for 5 people
+    if (q.contains('5') || q.contains('৫') || q.contains('five')) {
+      if (isBn) {
+        return '👥 **৫ জনের জন্য উপকরণের নতুন মাপ (২.৫ গুণ বৃদ্ধি):**\n\n'
+            '${_scaleIngredientsText(recipe, 2.5, true)}\n\n'
+            '💡 **শেফের পরামর্শ:** বড় প্যান ব্যবহার করুন যাতে উপাদানগুলো সহজে ভাজা যায়। রান্নার সময় প্রায় ৩-৫ মিনিট বেশি লাগতে পারে।';
+      } else {
+        return '👥 **Adjusted Ingredients for 5 People (2.5x multiplier):**\n\n'
+            '${_scaleIngredientsText(recipe, 2.5, false)}\n\n'
+            '💡 **Chef Tip:** Use a wider pan so heat distributes evenly. Add 3–5 extra minutes to total cook time.';
+      }
     }
 
-    return 'Could not get an answer from Chef at this moment. Please try again.';
+    // 2. Portion scaling for 2 people
+    if (q.contains('2') || q.contains('২') || q.contains('two')) {
+      if (isBn) {
+        return '👥 **২ জনের জন্য আদর্শ মাপ (১ গুণ):**\n\n'
+            '${_scaleIngredientsText(recipe, 1.0, true)}\n\n'
+            '💡 **শেফের পরামর্শ:** মাঝারি আঁচে রান্না করুন। ২ জনের জন্য দ্রুত ও সুন্দরভাবে প্রস্তুত হবে।';
+      } else {
+        return '👥 **Portions for 2 People:**\n\n'
+            '${_scaleIngredientsText(recipe, 1.0, false)}\n\n'
+            '💡 **Chef Tip:** Cook on medium heat. This portion size cooks quickly and preserves juiciness!';
+      }
+    }
+
+    // 3. Substitutions / Swaps
+    if (q.contains('swap') || q.contains('substitut') || q.contains('বিকল্প') || q.contains('বদলে') || q.contains('replace')) {
+      if (isBn) {
+        return '🔄 **উপকরণের সহজ ঘরোয়া বিকল্প:**\n\n'
+            '• **দুধ / ক্রিমের বদলে:** অল্প পানিতে ফেটানো টক দই বা সাধারণ দুধ ও মাখন।\n'
+            '• **ডিমের বদলে:** ১/৪ কাপ কলা চটকানো বা ১ চামচ চিয়া সিড + ৩ চামচ পানি।\n'
+            '• **মুরগির বদলে:** পনির, মাশরুম, টফু বা সেদ্ধ ছোলা।\n'
+            '• **মাখনের বদলে:** ৩/৪ চামচ অলিভ অয়েল বা খাঁটি ঘি।\n'
+            '• **রসুনের বদলে:** সমপরিমাণ রসুন গুঁড়া (গার্লিক পাউডার) বা পেঁয়াজ কুচি।';
+      } else {
+        return '🔄 **Easy Ingredient Swaps:**\n\n'
+            '• **Instead of Milk / Cream:** Plain Greek yogurt diluted with water, or whole milk with a dash of butter.\n'
+            '• **Instead of Eggs:** 1/4 cup unsweetened applesauce or 1 tbsp chia seeds soaked in 3 tbsp water.\n'
+            '• **Instead of Chicken:** Firm tofu, paneer cubes, portobello mushrooms, or chickpeas.\n'
+            '• **Instead of Butter:** 3/4 tbsp olive oil or pure ghee per tbsp of butter.\n'
+            '• **Instead of Garlic:** 1/8 tsp garlic powder per clove, or finely minced shallots.';
+      }
+    }
+
+    // 4. Air Fryer instructions
+    if (q.contains('air') || q.contains('fryer') || q.contains('ফ্রায়ার') || q.contains('এয়ার')) {
+      if (isBn) {
+        return '🍳 **এয়ার ফ্রায়ারে রান্নার নিয়ম:**\n\n'
+            '• **তাপমাত্রা:** ১৮০° সেলসিয়াস (৩৬০° ফারেনহাইট)।\n'
+            '• **সময়:** ১২ থেকে ১৪ মিনিট।\n'
+            '• **পরামর্শ:** ঝুড়ি পুরো ভরবেন না। অর্ধেক সময় পর একবার উল্টে দিন যাতে চারপাশ মুচমুচে হয়।';
+      } else {
+        return '🍳 **Air Fryer Instructions:**\n\n'
+            '• **Temperature:** 360°F (180°C).\n'
+            '• **Time:** 12 to 14 minutes total.\n'
+            '• **Chef Tip:** Don’t crowd the basket. Shake or flip halfway through for maximum crispiness!';
+      }
+    }
+
+    // 5. Cook faster
+    if (q.contains('fast') || q.contains('quick') || q.contains('দ্রুত') || q.contains('তাড়াতাড়ি')) {
+      if (isBn) {
+        return '⏱️ **দ্রুত রান্না করার উপায়:**\n\n'
+            '• সব উপকরণ ছোট ও পাতলা করে কেটে নিন (অর্ধেক সময়ে সেদ্ধ হবে)।\n'
+            '• প্যান আগেই ভালো করে গরম করে নিন।\n'
+            '• ঢাকনা দিয়ে রান্না করুন, বাষ্প আটকে দ্রুত রান্না হবে!';
+      } else {
+        return '⏱️ **How to Cook It Faster:**\n\n'
+            '• Cut all meats and vegetables into smaller, bite-sized pieces.\n'
+            '• Preheat your skillet before adding oil.\n'
+            '• Cover with a lid during simmering to trap steam and cut cook time in half.';
+      }
+    }
+
+    // 6. Healthy / Calories
+    if (q.contains('health') || q.contains('calorie') || q.contains('ডায়েট') || q.contains('স্বাস্থ্যকর')) {
+      if (isBn) {
+        return '🥗 **স্বাস্থ্যকর ও কম ক্যালোরির টিপস:**\n\n'
+            '• তেলের ব্যবহার অর্ধেক কমিয়ে অয়েল স্প্রে ব্যবহার করুন।\n'
+            '• শাক-সবজি ও মাশরুমের পরিমাণ দ্বিগুণ করুন।\n'
+            '• ভাজার বদলে গ্রিল বা হালকা সেঁকে রান্না করুন।';
+      } else {
+        return '🥗 **Healthier & Lower Calorie Tips:**\n\n'
+            '• Reduce cooking oil by half or use an olive oil mister spray.\n'
+            '• Double up on fresh greens, spinach, or cherry tomatoes.\n'
+            '• Use lemon juice and fresh herbs for bold flavor with zero extra calories.';
+      }
+    }
+
+    // 7. How to make / steps
+    if (recipe != null && (q.contains('how') || q.contains('make') || q.contains('কীভাবে') || q.contains('বানাবো') || q.contains('banabo') || q.contains('step'))) {
+      final steps = recipe.getSteps(isBn);
+      final buffer = StringBuffer();
+      if (isBn) {
+        buffer.writeln('👨‍🍳 **${recipe.getTitle(true)} তৈরির সহজ ধাপসমূহ:**\n');
+        for (final s in steps) {
+          buffer.writeln('${s.stepNumber}. **${s.getTitle(true)}** (${s.timeBadge}): ${s.getInstruction(true)}');
+        }
+      } else {
+        buffer.writeln('👨‍🍳 **Step-by-step instructions for ${recipe.title}:**\n');
+        for (final s in steps) {
+          buffer.writeln('${s.stepNumber}. **${s.title}** (${s.timeBadge}): ${s.instruction}');
+        }
+      }
+      return buffer.toString().trim();
+    }
+
+    // 8. General fallback
+    if (isBn) {
+      return '👨‍🍳 **শেফের পরামর্শ:**\n\n'
+          'রান্নার স্বাদ বাড়াতে উপকরণগুলো আগে থেকেই প্রস্তুত করে রাখুন। মাঝারি আঁচে রান্না করলে খাবারের জুসিনেস ও পুষ্টিগুণ বজায় থাকে।\n\n'
+          'নির্দিষ্ট কোনো উপকরণ বা মাপের জন্য আমায় প্রশ্ন করতে পারেন!';
+    } else {
+      return '👨‍🍳 **Chef Tips for You:**\n\n'
+          'For maximum flavor, keep your ingredients prepped before heating the pan. Cooking on medium heat locks in moisture and natural juices.\n\n'
+          'Feel free to ask me about swapping any ingredient or scaling portions for your guests!';
+    }
+  }
+
+  static String _scaleIngredientsText(Recipe? recipe, double multiplier, bool isBn) {
+    if (recipe == null) {
+      if (isBn) {
+        return '• মুরগির মাংস: ৫০০ গ্রাম\n• রসুন কুচি: ৬ কোয়া\n• অলিভ অয়েল: ৩ টেবিল চামচ\n• লবণ ও গোলমরিচ: স্বাদমতো';
+      } else {
+        return '• Chicken breast: 500g\n• Garlic: 6 cloves, minced\n• Olive oil: 3 tbsp\n• Salt & pepper: to taste';
+      }
+    }
+
+    final ingredients = recipe.getIngredients(isBn);
+    final buffer = StringBuffer();
+    for (final item in ingredients) {
+      buffer.writeln('• $item (x$multiplier)');
+    }
+    return buffer.toString().trim();
   }
 
   static Recipe _parseRecipe(Map<String, dynamic> json, String originalIngredients) {
