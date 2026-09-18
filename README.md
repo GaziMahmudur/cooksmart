@@ -7,18 +7,19 @@
 [![AI](https://img.shields.io/badge/Google_Gemini-2.5_Flash-FF6B35?logo=google)](https://deepmind.google/technologies/gemini/)
 [![Platform](https://img.shields.io/badge/Platform-Android%205.0%2B%20%7C%20Web-green)]()
 [![Bilingual](https://img.shields.io/badge/Language-English%20%7C%20বাংলা-orange)]()
-[![Status](https://img.shields.io/badge/Release-v1.0.0-success)]()
+[![Status](https://img.shields.io/badge/Release-v1.1.0-success)](https://github.com/GaziMahmudur/cooksmart/releases/latest)
 
 ---
 
-## 🌐 Official Showcase & Download Website
+## 🌐 Official Showcase & Download Links
 
-CookSmart includes an official "Anti-Gravity" style landing page where users can explore full app details, watch video walkthrough demos, and download the Android release APK directly:
+CookSmart includes an official landing page and GitHub Release where you can download the latest Android release APK directly:
 
-- **🚀 Live Website**: **[https://site-five-kohl-ioqd6kzeb3.vercel.app](https://site-five-kohl-ioqd6kzeb3.vercel.app)**
-- **Direct APK Download**: [Download Android APK](https://site-five-kohl-ioqd6kzeb3.vercel.app/downloads/app-release.apk) (48.7 MB)
-- **Local Showcase**: [`site/public/index.html`](site/public/index.html)
-- **Vercel Config**: [`site/vercel.json`](site/vercel.json)
+- **📦 GitHub Release v1.1.0**: **[Download from GitHub Releases](https://github.com/GaziMahmudur/cooksmart/releases/latest)** (Recommended)
+- **🚀 Live Showcase Website**: **[https://cook-master-topaz.vercel.app](https://cook-master-topaz.vercel.app)**
+- **⚡ Direct APK Mirror**: **[CookSmart-v1.1.0.apk](https://cook-master-topaz.vercel.app/downloads/CookSmart-v1.1.0.apk)** (49.1 MB)
+
+> **⚠️ Important Installation Note**: If you previously had an older version or debug build of CookSmart installed on your phone, **please uninstall it first** before installing `v1.1.0`. Android's package manager requires this when upgrading across different signatures.
 
 ---
 

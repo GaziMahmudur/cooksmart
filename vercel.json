@@ -1,6 +1,8 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/site/index.html" },
+    { "source": "/downloads/CookSmart-v1.1.0.apk", "destination": "/site/public/downloads/app-release.apk" },
+    { "source": "/downloads/:match*", "destination": "/site/public/downloads/:match*" },
     { "source": "/(.*)", "destination": "/site/$1" }
   ]
 }

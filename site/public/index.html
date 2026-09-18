@@ -564,10 +564,167 @@
       align-items: center;
     }
 
-    @media (max-width: 800px) {
+    /* Mobile Navigation Drawer */
+    .mobile-menu-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 42px;
+      height: 42px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      padding: 0;
+      z-index: 110;
+      transition: all 0.2s ease;
+    }
+
+    .mobile-menu-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--text-main);
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+
+    .mobile-menu-btn.active span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .mobile-menu-btn.active span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    .mobile-menu-btn.active span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: rgba(18, 20, 26, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px 28px;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 99;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      transform: translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .mobile-nav.open {
+      display: flex;
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-nav a.mobile-link {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      padding: 12px 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: color 0.2s ease;
+    }
+
+    .mobile-nav a.mobile-link:hover {
+      color: var(--primary);
+    }
+
+    .mobile-nav-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    /* Features Grid Responsive */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    /* Specs Grid Responsive */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 28px;
+    }
+
+    /* Comprehensive Phone Responsive Media Queries */
+    @media (max-width: 960px) {
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .walkthrough-grid {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        gap: 36px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 18px;
+      }
+      .hero {
+        padding: 56px 0 40px;
+      }
+      .hero-title {
+        font-size: clamp(2rem, 6.5vw, 3rem);
+        letter-spacing: -1px;
+      }
+      .hero-subtitle {
+        font-size: 1rem;
+        margin-bottom: 28px;
+      }
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .specs-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      .walkthrough-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+      .w-tab {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        justify-content: center;
+      }
       .download-card {
         grid-template-columns: 1fr;
-        padding: 32px;
+        padding: 32px 20px;
         text-align: center;
       }
       .qr-box {
@@ -576,82 +733,196 @@
       .install-steps-row {
         justify-content: center;
       }
+      .footer-inner {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 16px;
+      }
     }
 
-    .qr-box {
-      text-align: center;
-      background: #FFFFFF;
-      padding: 16px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+      .nav-inner {
+        height: 64px;
+      }
+      .mobile-nav {
+        top: 64px;
+        padding: 16px 16px 24px;
+      }
+      .logo {
+        font-size: 1.15rem;
+      }
+      .logo-badge {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+      }
+      .nav-actions .btn-secondary {
+        display: none;
+      }
+      .nav-actions .btn-primary {
+        padding: 8px 14px;
+        font-size: 0.82rem;
+      }
+      .hero {
+        padding: 40px 0 32px;
+      }
+      .release-tag {
+        font-size: 0.76rem;
+        padding: 4px 12px;
+        margin-bottom: 18px;
+      }
+      .hero-title {
+        font-size: clamp(1.75rem, 8vw, 2.35rem);
+        line-height: 1.2;
+        margin-bottom: 16px;
+      }
+      .hero-subtitle {
+        font-size: 0.92rem;
+        line-height: 1.5;
+        margin-bottom: 24px;
+      }
+      .hero-cta-group {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+      .hero-cta-group .btn {
+        width: 100%;
+        padding: 13px 18px;
+        font-size: 0.95rem;
+      }
+      .hero-meta-badges {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px 10px;
+        font-size: 0.78rem;
+        text-align: left;
+        margin-bottom: 36px;
+      }
+      .phone-device {
+        width: 100%;
+        max-width: 270px;
+        border-width: 6px;
+        border-radius: 36px;
+      }
+      .section-header {
+        margin-bottom: 32px;
+      }
+      .section-badge {
+        font-size: 0.78rem;
+      }
+      .section-title {
+        font-size: 1.7rem;
+        margin-bottom: 10px;
+      }
+      .section-subtitle {
+        font-size: 0.9rem;
+      }
+      .walkthrough-section,
+      .features-section,
+      .specs-section,
+      .download-section {
+        padding: 56px 0;
+      }
+      .details-card {
+        padding: 20px 16px;
+        border-radius: 20px;
+      }
+      .details-title {
+        font-size: 1.35rem;
+      }
+      .details-desc {
+        font-size: 0.9rem;
+        margin-bottom: 18px;
+      }
+      .highlights-list {
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .highlights-list li {
+        font-size: 0.85rem;
+      }
+      .feature-card {
+        padding: 22px 18px;
+        border-radius: 18px;
+      }
+      .feature-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        margin-bottom: 14px;
+      }
+      .feature-title {
+        font-size: 1.15rem;
+      }
+      .feature-desc {
+        font-size: 0.88rem;
+      }
+      .specs-card {
+        padding: 20px 16px;
+        border-radius: 18px;
+      }
+      .specs-card-title {
+        font-size: 1.15rem;
+        margin-bottom: 14px;
+      }
+      .specs-table td {
+        font-size: 0.82rem;
+        padding: 8px 0;
+      }
+      .download-card {
+        padding: 26px 16px;
+        border-radius: 22px;
+      }
+      .download-card h2 {
+        font-size: 1.7rem !important;
+      }
+      .install-steps-row {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .step-pill {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 10px 12px;
+        font-size: 0.82rem;
+      }
+      .qr-box {
+        padding: 12px;
+        border-radius: 16px;
+      }
+      .qr-box img {
+        width: 130px;
+        height: 130px;
+      }
+      .qr-box p {
+        font-size: 0.72rem;
+      }
     }
 
-    .qr-box img {
-      width: 180px;
-      height: 180px;
-      display: block;
-      margin: 0 auto;
-    }
-
-    .qr-box p {
-      color: #111827;
-      font-size: 0.78rem;
-      font-weight: 700;
-      margin-top: 10px;
-      letter-spacing: 0.2px;
-    }
-
-    .install-steps-row {
-      display: flex;
-      gap: 20px;
-      margin-top: 28px;
-      flex-wrap: wrap;
-    }
-
-    .step-pill {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 10px 14px;
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .step-pill strong {
-      color: var(--primary);
-    }
-
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 40px 0;
-      color: var(--text-subtle);
-      font-size: 0.875rem;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    .footer-links {
-      display: flex;
-      gap: 24px;
-    }
-
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: var(--text-main);
+    @media (max-width: 380px) {
+      .hero-title {
+        font-size: 1.55rem;
+      }
+      .walkthrough-tabs {
+        grid-template-columns: 1fr;
+      }
+      .hero-meta-badges {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .container {
+        padding: 0 12px;
+      }
     }
   </style>
 </head>
@@ -683,6 +954,41 @@
           <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           <span>Download APK</span>
         </a>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" onclick="toggleMobileNav()" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav" id="mobileNav">
+      <a href="#features" class="mobile-link" onclick="closeMobileNav()">
+        <span>Features</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#walkthrough" class="mobile-link" onclick="closeMobileNav()">
+        <span>App Walkthrough</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#specs" class="mobile-link" onclick="closeMobileNav()">
+        <span>Compatibility & Details</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#download" class="mobile-link" onclick="closeMobileNav()">
+        <span>Download APK (49.1 MB)</span>
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </a>
+      <div class="mobile-nav-actions">
+        <a href="downloads/app-release.apk" download class="btn btn-primary btn-large" style="width: 100%;">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          <span>Download Android APK (49.1 MB)</span>
+        </a>
+        <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank" class="btn btn-secondary" style="width: 100%;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>View on GitHub</span>
+        </a>
       </div>
     </div>
   </nav>
@@ -707,7 +1013,7 @@
       <div class="hero-cta-group">
         <a href="downloads/app-release.apk" download class="btn btn-primary btn-large">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-          <span>Download Android APK (48.7 MB)</span>
+          <span>Download Android APK (49.1 MB)</span>
         </a>
         <a href="#walkthrough" class="btn btn-secondary btn-large">
           <span>Explore App Walkthrough &rarr;</span>
@@ -792,7 +1098,7 @@
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Install to Experience</span>
             </a>
-            <span style="font-size: 0.85rem; color: var(--text-subtle);">Direct Android APK • 48.7 MB</span>
+            <span style="font-size: 0.85rem; color: var(--text-subtle);">Direct Android APK • 49.1 MB</span>
           </div>
         </div>
       </div>
@@ -910,6 +1216,10 @@
           </h3>
           <table class="specs-table">
             <tr>
+              <td>Latest Version</td>
+              <td><strong style="color: var(--primary);">v1.1.0</strong> (Build 2) • Released</td>
+            </tr>
+            <tr>
               <td>Supported OS</td>
               <td>Android 5.0 (Lollipop) to Android 14 & 15</td>
             </tr>
@@ -919,7 +1229,7 @@
             </tr>
             <tr>
               <td>Download Size</td>
-              <td>48.7 MB (Lightweight)</td>
+              <td>49.1 MB (Lightweight)</td>
             </tr>
             <tr>
               <td>Architecture</td>
@@ -969,31 +1279,35 @@
     <div class="container">
       <div class="download-card">
         <div>
-          <span class="logo-badge" style="margin-bottom: 16px; display: inline-block;">Ready to Install</span>
+          <span class="logo-badge" style="margin-bottom: 16px; display: inline-block;">Latest Release • v1.1.0</span>
           <h2 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 16px;">Download CookSmart APK</h2>
-          <p style="color: var(--text-muted); margin-bottom: 24px; line-height: 1.55;">
+          <p style="color: var(--text-muted); margin-bottom: 20px; line-height: 1.55;">
             Start cooking smarter with zero food waste. Download the official Android APK directly to your phone. No sign-up, no hidden fees, just great meals.
           </p>
 
+          <div style="background: rgba(255, 107, 44, 0.08); border: 1px solid rgba(255, 107, 44, 0.25); border-radius: 12px; padding: 12px 16px; margin-bottom: 20px; font-size: 0.88rem; color: #ffb488; line-height: 1.5;">
+            💡 <strong>Note for Updating:</strong> If you had a previous version installed on your device, please <strong>uninstall the old app first</strong> to prevent Android signature caching conflicts.
+          </div>
+
           <div style="display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 20px;">
-            <a href="downloads/app-release.apk" download class="btn btn-primary btn-large">
+            <a href="downloads/app-release.apk" download="CookSmart-v1.1.0.apk" class="btn btn-primary btn-large">
               <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              <span>Download APK (48.7 MB)</span>
+              <span>Download APK v1.1.0 (49.1 MB)</span>
             </a>
-            <a href="https://github.com/GaziMahmudur/cooksmart" target="_blank" class="btn btn-secondary btn-large">
-              <span>View Source on GitHub</span>
+            <a href="https://github.com/GaziMahmudur/cooksmart/releases/latest" target="_blank" class="btn btn-secondary btn-large">
+              <span>GitHub Release</span>
             </a>
           </div>
 
           <div class="install-steps-row">
             <div class="step-pill">
-              <strong>Step 1:</strong> Tap Download APK
+              <strong>Step 1:</strong> Tap Download APK v1.1.0
             </div>
             <div class="step-pill">
-              <strong>Step 2:</strong> Tap file when download finishes
+              <strong>Step 2:</strong> Uninstall older app if installed
             </div>
             <div class="step-pill">
-              <strong>Step 3:</strong> Choose Install & Enjoy!
+              <strong>Step 3:</strong> Install APK & Enjoy Bangla + AI!
             </div>
           </div>
         </div>
@@ -1097,6 +1411,32 @@
       const listEl = document.getElementById('wtList');
       listEl.innerHTML = data.highlights.map(h => '<li><span class="hl-check">✓</span> <span>' + h + '</span></li>').join('');
     }
+
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileMenuBtn');
+      if (nav && btn) {
+        nav.classList.toggle('open');
+        btn.classList.toggle('active');
+      }
+    }
+
+    function closeMobileNav() {
+      const nav = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileMenuBtn');
+      if (nav) nav.classList.remove('open');
+      if (btn) btn.classList.remove('active');
+    }
+
+    document.addEventListener('click', (e) => {
+      const nav = document.getElementById('mobileNav');
+      const btn = document.getElementById('mobileMenuBtn');
+      if (nav && btn && nav.classList.contains('open')) {
+        if (!nav.contains(e.target) && !btn.contains(e.target)) {
+          closeMobileNav();
+        }
+      }
+    });
   </script>
 </body>
 </html>
